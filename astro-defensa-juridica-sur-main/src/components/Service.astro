@@ -1,0 +1,146 @@
+---
+import { Image } from "astro:assets";
+
+import iconoDerechoPenal from "../assets/images/iconos/icono-derecho-penal.png";
+import iconoDerechoAdministrativo from "../assets/images/iconos/icono-derecho-administrativo.png";
+import iconoDerechoFamilia from "../assets/images/iconos/icono-derecho-familia.png";
+import iconoDerechoCivil from "../assets/images/iconos/icono-derecho-civil.png";
+import iconoPoliciaLocal from "../assets/images/iconos/icono-derecho-policial.png";
+import iconoDerechoMilitar from "../assets/images/iconos/icono-justicia-militar.png";
+import iconoDerechoLaboral from "../assets/images/iconos/icono-derecho-laboral.png";
+
+interface ServiceInterface {
+    img: any;
+    title: string;
+    items: string[];
+}
+const serviceItems: ServiceInterface[] = [
+    {
+        img: iconoDerechoPenal,
+        title: "Derecho Penal",
+        items: [
+            "Delitos contra la propiedad",
+            "Delitos contra las personas",
+            "Delito de Maltrato habitual",
+            "Delitos sexuales",
+            "Delitos vinculados a Ley de drogas",
+            "Responsabilidad Penal adolescente",
+            "Recursos y medidas cautelares",
+        ],
+    },
+    {
+        img: iconoDerechoAdministrativo,
+        title: "Derecho Administrativo",
+        items: [
+            "Sumarios Administrativos",
+            "Investigaciones Administrativas",
+            "Responsabilidad Administrativa funcionarios Públicos",
+            "Contraloría General de la República",
+            "Recursos de Legalidad",
+            "Recurso de Invalidación de Sumarios Administrativos",
+        ],
+    },
+    {
+        img: iconoDerechoFamilia,
+        title: "Derecho de Familia",
+        items: [
+            "Relación directa y regular (régimen de visitas)",
+            "Cuidado personal de hijo/a",
+            "Pensión de alimentos",
+            "Violencia Intrafamiliar",
+            "Medidas de protección",
+            "Declaración de bien familiar",
+            "Divorcios",
+            "Reclamación / Impugnación de Paternidad",
+        ],
+    },
+    {
+        img: iconoDerechoCivil,
+        title: "Derecho Civil",
+        items: [
+            "Juicio Ejecutivo (cobranza)",
+            "Juicios de Arrendamientos",
+            "Juicio de Precario y Reivindicatorias",
+            "Juicios de Indemnización de perjuicios",
+            "Declaración de interdicción",
+            "Juicios de Partición de Herencia",
+            "Prescripción de Deudas",
+            "Redacción de escrituras públicas y privadas - compraventa de inmueble",
+        ],
+    },
+    {
+        img: iconoDerechoMilitar,
+        title: "Justicia Militar",
+        items: [
+            "Desacato, desobediencia y abandono de deberes",
+            "Procesos disciplinarios",
+            "Recursos y procedimientos ante la Corte Marcial",
+            "Tramitación ante Juzgados Militares, de Aviación, Naval y Carabineros",
+        ],
+    },
+    {
+        img: iconoDerechoLaboral,
+        title: "Derecho Laboral",
+        items: [
+            "Despidos Injustificados",
+            "Tutela, Vulneración de Derechos Fundamentales",
+            "Autodespido",
+            "Comparendos ante la Inspección del Trabajo",
+        ],
+    },
+    {
+        img: iconoPoliciaLocal,
+        title: "Policía Local",
+        items: ["Infracción a la Ley de Tránsito", "Infracciones a la Ley del Consumidor"],
+    },
+];
+---
+
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-0">
+    <div class="flex flex-col justify-center items-center">
+        <h2 class="tituloH1 text-center" data-aos="fade-down" data-aos-duration="800">
+            ¿En qué podemos ayudarte?
+        </h2>
+        <p
+            class="textAlternative py-[15px] text-center w-full sm:w-[85%] md:w-[70%]"
+            data-aos="fade-up"
+            data-aos-duration="900"
+        >
+            Contamos con especialistas en distintas áreas para proteger tus derechos e intereses.
+            Conoce nuestros servicios y encuentra la asesoría legal que necesitas.
+        </p>
+    </div>
+    <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mt-[35px] sm:mt-[40px] lg:mt-[45px]"
+    >
+        {
+            serviceItems.map((item, index) => (
+                <div
+                    class="col-span-1 py-6 px-[16px] sm:py-10 sm:px-[18px] lg:p-[20px] flex flex-row gap-3 sm:gap-4 hover:scale-102 transition-transform duration-500 transform hover:shadow-[0_12px_28px_rgba(193,143,89,0.45)] cursor-pointer"
+                    data-aos="fade-up"
+                    data-aos-duration="1000"
+                    data-aos-delay={index * 100}
+                >
+                    <Image
+                        src={item.img}
+                        alt={`Icono ${item.title}`}
+                        class="h-[45px] sm:h-[50px] lg:h-[55px] flex-shrink-0"
+                        loading="lazy"
+                    />
+                    <div class="flex-1 min-w-0">
+                        <h4 class="tituloH4">{item.title}</h4>
+                        <ul class="mt-2 space-y-1">
+                            {item.items.map((listItem) => (
+                                <li class="parrafo text-[16px] flex items-start">
+                                    <span class="text-marron mr-2">•</span>
+                                    <span>{listItem}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+    <div></div>
+</div>

@@ -1,0 +1,83 @@
+---
+import { Image } from "astro:assets";
+import { Mail, Phone, MapPin } from "@lucide/astro";
+import LeafletMap from "./LeafletMap";
+
+import imgQR from "../assets/images/instagram_isabel_qr.svg";
+
+interface itemContactInterface {
+    icon: any;
+    text: string;
+}
+
+const contactItem: itemContactInterface[] = [
+    {
+        icon: Phone,
+        text: "+56958835620",
+    },
+    {
+        icon: Phone,
+        text: "+56921614436",
+    },
+    {
+        icon: Mail,
+        text: "juridicasurdefensa@gmail.com",
+    },
+    {
+        icon: MapPin,
+        text: "O´higgins 167, Edificio Plaza, Oficina 706",
+    },
+];
+---
+
+<div class="container mx-auto px-6 sm:px-8 md:px-10 lg:px-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-10">
+        <div class="col-span-1 md:pr-[30px]">
+            <p class="textAlternative">
+                ¿Deseas agendar una reunión y aclarar tus dudas jurídicas?
+            </p>
+            <h2 class="tituloH1" data-aos="fade-down" data-aos-duration="800">
+                Nuestro Estudio Jurídico
+            </h2>
+            <p class="textAlternative md:my-[20px] text-justify">
+                Nuestro Estudio Jurídico se encuentra ubicado en pleno centro de Puerto Montt, cerca
+                de la Ilustrísima Corte de Apelaciones. Puedes agendar una reunión con nuestros
+                abogados, de forma presencial o a través de la plataforma Zoom, según tu preferencia.
+                Horario de atención desde las 09:00 a 18:00 horas.
+            </p>
+            <div class="md:mt-[20px]">
+                <ul class="space-y-2">
+                    {
+                        contactItem.map((item) => (
+                            <li class="flex items-center gap-2 mt-[15px]">
+                                <item.icon class="w-5 h-5 text-marron mr-[5px]" />
+                                <span class="textAlternative">{item.text}</span>
+                            </li>
+                        ))
+                    }
+                </ul>
+                <div class="justify-center items-center flex flex-col">
+                    <Image
+                        src={imgQR}
+                        alt="Código QR Instagram @defensajuridicasur"
+                        class="mt-[20px]"
+                        loading="lazy"
+                    />
+                    <p class="text-center text-sm text-gris-text mt-2">Síguenos en Instagram</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-span-1 md:pl-[30px]">
+            <!-- Mapa de Leaflet -->
+            <div class="h-[300px] sm:h-[350px] md:h-[400px] lg:h-[500px] xl:h-[540px] w-full">
+                <LeafletMap
+                    client:only="react"
+                    latitude={-41.4714627}
+                    longitude={-72.9392936}
+                    zoom={16}
+                    height="100%"
+                />
+            </div>
+        </div>
+    </div>
+</div>
