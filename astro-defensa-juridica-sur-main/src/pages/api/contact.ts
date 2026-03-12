@@ -29,6 +29,18 @@ export const POST: APIRoute = async ({ request }) => {
         const email = data.get("email")?.toString();
         const phone = data.get("phone")?.toString();
         const message = data.get("message")?.toString();
+        const company = data.get("company")?.toString();
+
+// Protección anti-spam
+if (company) {
+  return new Response(
+    JSON.stringify({
+      success: true,
+      message: "Mensaje enviado correctamente",
+    }),
+    { status: 200 }
+  );
+}
 
         // Validación server-side
         if (!name || !email || !phone || !message) {
@@ -111,7 +123,50 @@ ${message}
         };
 
         // Enviar email con SendGrid
-        await sgMail.send(emailContent);
+        //await sgMail.send(emailContent);
+        await sgMail.send({
+  to: TO_EMAIL,
+  from: FROM_EMAIL,
+  subject: "Nueva consulta desde la web – Defensoría Jurídica Sur",
+
+  text: `
+Nueva consulta desde la web
+
+Nombre: ${name}
+Correo: ${email}
+Teléfono: ${phone}
+
+Mensaje:
+${message}
+`,
+
+  html: `
+<h2>Nueva consulta desde la web</h2>
+
+<p><strong>Nombre:</strong> ${name}</p>
+<p><strong>Correo:</strong> ${email}</p>
+<p><strong>Teléfono:</strong> ${phone}</p>
+
+<p><strong>Mensaje:</strong></p>
+<p>${message}</p>
+`
+});
+        await sgMail.send({
+  to: email,
+  from: FROM_EMAIL,
+  subject: "Hemos recibido tu consulta – Defensoría Jurídica Sur",
+
+  text: `
+Hola ${name},
+
+Hemos recibido tu consulta correctamente.
+
+Nuestro equipo revisará tu mensaje y se pondrá en contacto contigo a la brevedad.
+
+Saludos,
+Defensoría Jurídica Sur
+`
+});
 
         // Respuesta exitosa
         return new Response(
