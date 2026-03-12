@@ -29,6 +29,7 @@ export const POST: APIRoute = async ({ request }) => {
         const email = data.get("email")?.toString();
         const phone = data.get("phone")?.toString();
         const message = data.get("message")?.toString();
+        const subject = data.get("subject")?.toString();
         const company = data.get("company")?.toString();
 
 // Protección anti-spam
@@ -66,21 +67,22 @@ if (company) {
         }
 
         // Preparar el mensaje de email
-        const emailContent = {
-            to: TO_EMAIL,
-            from: FROM_EMAIL,
-            subject: `Nuevo mensaje de contacto - ${name}`,
-            text: `
+       const emailContent = {
+  to: TO_EMAIL,
+  from: FROM_EMAIL,
+  subject: `Nueva consulta (${subject}) - ${name}`,
+  text: `
 Nuevo mensaje desde el formulario de contacto:
 
 Nombre: ${name}
 Email: ${email}
 Teléfono: ${phone}
+Tipo de consulta: ${subject}
 
 Mensaje:
 ${message}
-            `,
-            html: `
+`,
+  html: `
 <!DOCTYPE html>
 <html>
 <head>
@@ -131,7 +133,7 @@ ${message}
 
   text: `
 Nueva consulta desde la web
-
+Tipo de consulta: ${subject}
 Nombre: ${name}
 Correo: ${email}
 Teléfono: ${phone}
