@@ -67,22 +67,22 @@ if (company) {
         }
 
         // Preparar el mensaje de email
-       const emailContent = {
-  to: TO_EMAIL,
-  from: FROM_EMAIL,
-  subject: `Nueva consulta (${subject}) - ${name}`,
-  text: `
-Nuevo mensaje desde el formulario de contacto:
+  //     const emailContent = {
+  //to: TO_EMAIL,
+  //from: FROM_EMAIL,
+  //subject: `Nueva consulta (${subject}) - ${name}`,
+  //text: `
+//Nuevo mensaje desde el formulario de contacto:
 
-Nombre: ${name}
-Email: ${email}
-Teléfono: ${phone}
-Tipo de consulta: ${subject}
+//Nombre: ${name}
+//Email: ${email}
+//Teléfono: ${phone}
+//Tipo de consulta: ${subject}
 
-Mensaje:
-${message}
-`,
-  html: `
+//Mensaje:
+//${message}
+//`,
+ // html: `
 <!DOCTYPE html>
 <html>
 <head>
