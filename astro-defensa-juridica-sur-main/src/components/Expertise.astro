@@ -1,0 +1,105 @@
+---
+import { Image } from "astro:assets";
+
+import imgExpertiseUno from "../assets/images/esperctis-01.webp";
+import imgExpertiseDos from "../assets/images/esperctis-02.webp";
+import iconPenal from "../assets/images/iconos/icono-derecho-penal.png";
+import iconCivil from "../assets/images/iconos/icono-derecho-civil.png";
+---
+
+<div
+    class="grid grid-cols-1 md:grid-cols-2 min-h-[400px] sm:min-h-[500px] md:min-h-[560px] lg:min-h-[600px] xl:min-h-[630px]"
+>
+    <!-- Columna de la imagen -->
+    <div
+        class="col-span-1 h-full order-2 md:order-1"
+        data-aos="fade-right"
+        data-aos-duration="1000"
+    >
+        <Image
+            src={imgExpertiseUno}
+            alt="Abogado defensor especializado en Derecho Penal - Defensa Jurídica Sur"
+            class="w-full aspect-square md:h-full xl:h-[630px] object-cover"
+            loading="lazy"
+        />
+    </div>
+
+    <!-- Columna del contenido -->
+    <div
+        class="col-span-1 flex items-center justify-center h-full order-1 md:order-2"
+        data-aos="fade-left"
+        data-aos-duration="1000"
+    >
+        <div class="px-6">
+            <div
+                class="flex flex-col items-center justify-center py-10 sm:py-12 md:py-14 lg:py-16 xl:py-0"
+            >
+                <Image
+                    src={iconPenal}
+                    alt="Icono Derecho Penal"
+                    class="h-[55px] mb-[15px]"
+                    loading="lazy"
+                />
+                <h2
+                    class="font-sans text-[42px] leading-[52px] font-light text-center text-[#212529] md:w-[75%]"
+                >
+                    DEFENSORES PRIVADOS EN MATERIA PENAL
+                </h2>
+                <p class="textAlternative mt-[20px] md:w-[75%] text-justify">
+                    En el sistema Penal, cada decisión puede marcar la diferencia entre tu libertad
+                    o enfrentar una condena que te prive de esta. Enfrentar un proceso penal es una
+                    de las experiencias más difíciles que una persona puede atravesar, por tanto una
+                    defensa sólida no es un lujo, es tu derecho. Una denuncia, una investigación o
+                    una audiencia no solo puede afectar tu libertad, sino también tu vida familiar,
+                    laboral y personal. Contamos con la preparación y experiencia necesaria para
+                    velar por tus derechos, ya sea como imputado o como víctima de un delito.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div
+    class="grid grid-cols-1 md:grid-cols-2 min-h-[400px] sm:min-h-[500px] md:min-h-[560px] lg:min-h-[600px] xl:min-h-[630px]"
+>
+    <!-- Columna del contenido -->
+    <div
+        class="col-span-1 flex items-center justify-center h-full"
+        data-aos="fade-right"
+        data-aos-duration="1000"
+    >
+        <div class="px-6">
+            <div
+                class="flex flex-col items-center justify-center py-10 sm:py-12 md:py-14 lg:py-16 xl:py-0"
+            >
+                <Image
+                    src={iconCivil}
+                    alt="Icono Derecho Civil"
+                    class="h-[55px] mb-[15px]"
+                    loading="lazy"
+                />
+                <h2
+                    class="font-sans text-[42px] leading-[52px] font-light text-center text-[#212529] md:w-[75%]"
+                >
+                    JUICIO EJECUTIVO. REMATES
+                </h2>
+                <p class="textAlternative mt-[20px] md:w-[75%] text-justify">
+                    A través de este procedimiento el Estudio Jurídico ha logrado que acreedores
+                    puedan cobrar judicialmente una deuda respaldada en un título, como un pagaré,
+                    cheques, facturas o sentencias. La importancia de este procedimiento es asegurar
+                    el cumplimiento efectivo de las deudas, embargando bienes para posteriormente
+                    ser rematados en subasta pública.
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- Columna de la imagen -->
+    <div class="col-span-1 h-full" data-aos="fade-left" data-aos-duration="1000">
+        <Image
+            src={imgExpertiseDos}
+            alt="Asesoría legal en Derecho Civil, juicios ejecutivos y remates - Defensa Jurídica Sur"
+            class="w-full aspect-square md:h-full xl:h-[630px] object-cover"
+            loading="lazy"
+        />
+    </div>
+</div>

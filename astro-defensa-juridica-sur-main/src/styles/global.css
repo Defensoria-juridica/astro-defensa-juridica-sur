@@ -1,0 +1,276 @@
+@import "@fontsource-variable/montserrat";
+@import "tailwindcss";
+
+/* Prevenir scroll horizontal */
+html,
+body {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+@theme {
+    --font-montserrat: "Montserrat Variable", sans-serif;
+    --font-sans: var(--font-montserrat);
+
+    /* Configuración personalizada del container */
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+    --breakpoint-2xl: 1320px; /* Tu máximo personalizado */
+
+    /* Sistema de colores principal */
+    --color-primary: #c18f59;
+    --color-primary-foreground: #ffffff;
+    --color-secondary: #212529;
+    --color-background: #ffffff;
+    --color-foreground: #212529;
+
+    /* Colores del sistema (equivalencias para compatibilidad) */
+    --color-negro: #000000;
+    --color-blanco: #ffffff;
+    --color-bg-nav: #323232;
+    --color-marron: #c18f59; /* Equivale a --color-primary */
+    --color-gris-text: #898989;
+    --color-gris-border: #eaeaea;
+    --color-gris-bg: #f8f9fa;
+
+    /* Variables de navegación */
+    --nav-height: 4rem;
+    --nav-bg-default: rgba(0, 0, 0, 0.4);
+    --nav-bg-scrolled: #323232;
+    --nav-shadow-default: none;
+    --nav-shadow-scrolled: 0 10px 15px -3px rgb(0 0 0 / 0.3);
+
+    /* Sidebar variables */
+    --sidebar-width: 100%;
+    --sidebar-bg: #ffffff;
+    --sidebar-overlay-bg: rgb(0 0 0 / 0.5);
+
+    /* Transiciones */
+    --transition-fast: 150ms ease-in-out;
+    --transition-normal: 300ms ease-in-out;
+    --transition-slow: 500ms ease-in-out;
+}
+
+@layer components {
+    /* ================== PERSONALIZADOS ======================*/
+    .tituloH1 {
+        @apply font-montserrat text-4xl md:text-5xl font-bold text-transparent leading-tight;
+        background: linear-gradient(40deg, #202020 0%, #dea054 80%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .tituloH1Alternative {
+        @apply font-montserrat text-4xl md:text-5xl font-bold text-transparent leading-tight;
+        background: linear-gradient(40deg, #ffffff 0%, #dea054 80%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .textAlternative {
+        @apply text-[19px] font-sans leading-[28px] text-[#898989] font-light;
+    }
+
+    .tituloH3 {
+        @apply font-montserrat text-xl md:text-2xl font-bold text-secondary leading-tight;
+    }
+    .tituloH4 {
+        @apply font-montserrat text-lg md:text-xl text-secondary leading-tight;
+    }
+    .parrafo {
+        @apply font-montserrat text-base font-light text-gris-text leading-relaxed;
+    }
+
+    .btn-slider {
+        @apply font-montserrat text-blanco text-[1.071rem] font-normal tracking-[1px] leading-[21px] text-center uppercase bg-marron inline-block rounded-none transition-all hover:scale-105 duration-500 delay-800;
+    }
+
+    .bg-testimonios {
+        background-image: url("src/assets/testimonials.jpg");
+        @apply bg-cover bg-center bg-no-repeat;
+    }
+
+    /* =================================
+       COMPONENTES DEL HEADER
+       ================================= */
+
+    /* Header Principal */
+    .header-juridico {
+        @apply relative;
+    }
+
+    /* === TOPBAR === */
+    .topbar {
+        @apply bg-transparent text-primary-foreground py-[6px] md:py-[10px] relative z-40 hidden md:block;
+    }
+
+    .topbar-content {
+        @apply flex justify-end items-center;
+    }
+
+    .contact-info {
+        @apply flex gap-3 md:gap-6;
+    }
+
+    .contact-item {
+        @apply flex items-center gap-2;
+    }
+
+    .contact-icon {
+        @apply text-marron;
+    }
+
+    .contact-link {
+        @apply text-primary-foreground text-[13px] hover:text-primary-foreground/80 transition-colors duration-200;
+    }
+
+    /* === NAVEGACIÓN PRINCIPAL === */
+    .nav-sticky {
+        @apply relative z-50 w-full;
+        background-color: var(--nav-bg-default);
+        transition: var(--transition-normal);
+    }
+
+    .nav-sticky.nav-scrolled {
+        @apply fixed top-0 left-0 w-full;
+        background-color: var(--nav-bg-scrolled);
+        box-shadow: var(--nav-shadow-scrolled);
+    }
+
+    .nav-content {
+        @apply flex items-center justify-between px-4 sm:px-6 md:px-8 py-3 md:py-4;
+    }
+
+    .nav-brand {
+        @apply flex items-center font-bold text-[22px] text-secondary no-underline;
+    }
+
+    .nav-logo {
+        @apply block w-[120px] sm:w-[130px] md:w-[140px] xl:w-[150px] h-[50px] sm:h-[54px] md:h-[58px] xl:h-[62px];
+    }
+
+    /* === MENÚ DESKTOP === */
+    .nav-menu-desktop {
+        @apply hidden lg:flex gap-1;
+    }
+
+    .nav-item {
+        @apply relative;
+    }
+
+    .nav-link {
+        @apply text-sm leading-[1.3] uppercase list-none cursor-pointer ease-out text-blanco outline-none block px-5 py-[15px] rounded-none font-light;
+        @apply hover:text-primary transition duration-300 hover:overline;
+
+        &.nav-link-active {
+            @apply text-primary overline;
+        }
+    }
+
+    /* === TOGGLE MÓVIL === */
+    .nav-toggle {
+        @apply lg:hidden p-2 text-blanco hover:text-primary;
+        @apply hover:bg-gris-bg rounded-md transition-all duration-200;
+        @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+    }
+
+    .nav-toggle-icon {
+        @apply w-6 h-6;
+    }
+
+    /* =================================
+       SIDEBAR MÓVIL
+       ================================= */
+
+    .nav-sidebar {
+        @apply fixed top-0 right-0 h-full z-50 lg:hidden bg-negro w-full;
+        @apply transform translate-x-full transition-all;
+        transition-duration: var(--transition-slow);
+        transition-timing-function: ease-in-out;
+
+        &.sidebar-open {
+            @apply translate-x-0;
+        }
+    }
+
+    .sidebar-content {
+        @apply p-10 h-full overflow-y-auto flex flex-col;
+    }
+
+    .sidebar-header {
+        @apply flex items-center justify-end mb-8;
+    }
+
+    .sidebar-title {
+        @apply text-xl font-bold text-secondary;
+    }
+
+    .sidebar-close {
+        @apply p-2 text-secondary hover:text-primary rounded-md;
+        @apply transition-colors duration-200;
+        @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+    }
+
+    .sidebar-close-icon {
+        @apply w-8 h-8;
+    }
+
+    /* === MENÚ DEL SIDEBAR === */
+    .sidebar-nav {
+        @apply flex flex-col items-center py-4;
+    }
+
+    .sidebar-menu {
+        @apply flex flex-col items-center space-y-4;
+    }
+
+    .sidebar-item {
+        @apply relative;
+    }
+
+    .sidebar-link {
+        @apply text-xl leading-[1.3] uppercase list-none cursor-pointer ease-out text-marron outline-none block px-5 py-[15px] rounded-none font-light;
+        @apply hover:text-primary transition duration-300 hover:overline;
+
+        &.nav-link-active {
+            @apply text-primary overline;
+        }
+    }
+
+    /* === OVERLAY DEL SIDEBAR === */
+    .sidebar-overlay {
+        @apply fixed inset-0 z-40 lg:hidden;
+        background-color: var(--sidebar-overlay-bg);
+        opacity: 0;
+        visibility: hidden;
+        transition: all var(--transition-slow) ease-in-out;
+
+        &.overlay-visible {
+            @apply opacity-100;
+            visibility: visible;
+        }
+    }
+}
+
+/* =================================
+   MEDIA QUERIES RESPONSIVE
+   ================================= */
+
+@media (max-width: 1023px) {
+    .nav-menu-desktop {
+        @apply hidden;
+    }
+}
+
+@media (min-width: 1024px) {
+    .nav-sidebar,
+    .sidebar-overlay {
+        @apply hidden;
+    }
+}
