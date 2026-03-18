@@ -31,7 +31,8 @@ interface SliderHomeProps {
 const defaultSlides: SlideData[] = [
     {
         id: 1,
-        title: "URIBE FITZGERALD y Cia.",
+        title: "Abogados en Puerto Montt",
+        description:"Defensa Juridica Sur-Especialistas en derecho laboral, civil y familia",
         image: slider01,
         cta: {
             text: "Contáctanos",
