@@ -1,0 +1,122 @@
+---
+import { Image } from "astro:assets";
+import logoFooter from "../assets/images/logo-wh.svg";
+import { Mail, Phone, Instagram } from "@lucide/astro";
+
+// Datos de contacto
+const contactInfo = {
+    email: "contacto@defensajuridicasur.cl",
+    phone: "+56912345678",
+    instagram: "https://instagram.com/defensajuridicasur",
+};
+
+// Obtener año actual
+const currentYear = new Date().getFullYear();
+
+const documentos = [
+    {
+        text: "Poder Simple",
+        url: "/poder-simple.docx",
+    },
+    {
+        text: "Mandato Especial",
+        url: "/mandato-especial.docx",
+    },
+    {
+        text: "Declaración Jurada Testigos",
+        url: "/declaracion-jurada-testigos.docx",
+    },
+];
+---
+
+<footer class="bg-black pt-[40px] sm:pt-[45px] md:pt-[50px]">
+    <div class="container mx-auto px-3 sm:px-4">
+        <div class="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2 md:gap-6 lg:grid-cols-8 lg:gap-6 xl:gap-8">
+            <div class="col-span-1 md:col-span-2 lg:col-span-5 2xl:col-span-6">
+                <div class="flex justify-center md:justify-center lg:justify-start">
+                    <a href="/" class="inline-block hover:scale-105 transition-transform duration-300">
+                        <Image
+                            src={logoFooter}
+                            alt="Logo Defensa Jurídica Sur"
+                            class="nav-logo w-[160px] h-auto sm:w-[170px] md:w-[150px]"
+                            loading="lazy"
+                        />
+                    </a>
+                </div>
+                <p
+                    class="text-[#898989] text-[14px] sm:text-[15px] md:text-[16px] font-sans leading-[22px] sm:leading-[24px] mt-[12px] sm:mt-[15px] md:mt-[20px] font-light mr-0 md:text-center md:mx-auto md:max-w-2xl lg:text-left lg:mr-[20%] 2xl:mr-[40%]"
+                >
+                    Somos un equipo que a lo largo de los años nos hemos especializado en diferentes
+                    materias con el objeto de entregar una asesoría jurídica correcta y que se
+                    oriente a cada caso.
+                </p>
+            </div>
+            <div class="col-span-1 md:col-span-2 lg:col-span-3 2xl:col-span-2 flex flex-col">
+                <h3 class="font-sans uppercase text-white text-[16px] md:text-[18px] leading-[24px] mb-[20px] md:mb-[26px] md:text-center lg:text-left">
+                    Enlaces Rápidos
+                </h3>
+                <ul class="space-y-3 sm:space-y-4 md:flex md:flex-col md:items-center lg:items-start">
+                    {
+                        documentos.map((item) => (
+                            <li>
+                                <a
+                                    href={item.url}
+                                    class="text-[#898989] text-[16px] md:text-[17px] hover:text-primary hover:underline underline-offset-4 font-sans leading-[24px] transition-all duration-200 font-light focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black"
+                                    target="_blank"
+                                >
+                                    {item.text}
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container mx-auto px-3 sm:px-4 border-t-[0.5px] border-white/25 mt-[25px] sm:mt-[30px] md:mt-[50px] py-[12px] sm:py-[15px]">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            <!-- Copyright -->
+            <div class="text-center md:text-left">
+                <p class="text-[#898989] text-[13px] sm:text-[14px] font-sans font-light leading-[20px] sm:leading-[24px]">
+                    Copyright © {currentYear} Defensa Jurídica Sur - Design by <span
+                        ><a
+                            href="https://crowadvance.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-marron hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black"
+                        >
+                            Crow Advance
+                        </a></span
+                    >
+                </p>
+            </div>
+
+            <!-- Iconos de redes sociales -->
+            <div class="flex gap-6 md:gap-8 items-center">
+                <a
+                    href={`mailto:${contactInfo.email}`}
+                    class="text-[#898989] hover:text-marron hover:scale-110 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black"
+                    aria-label="Enviar email a Defensa Jurídica Sur"
+                >
+                    <Mail size={24} class="md:w-5 md:h-5" />
+                </a>
+                <a
+                    href={`tel:${contactInfo.phone}`}
+                    class="text-[#898989] hover:text-marron hover:scale-110 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black"
+                    aria-label="Llamar a Defensa Jurídica Sur"
+                >
+                    <Phone size={24} class="md:w-5 md:h-5" />
+                </a>
+                <a
+                    href={contactInfo.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-[#898989] hover:text-marron hover:scale-110 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black"
+                    aria-label="Seguir en Instagram a Defensa Jurídica Sur"
+                >
+                    <Instagram size={24} class="md:w-5 md:h-5" />
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>

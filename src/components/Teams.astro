@@ -1,0 +1,380 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface TeamInterface {
+    name: string;
+    position: string;
+    img: ImageMetadata;
+    items?: string[];
+    master?: string[];
+}
+
+import imgJohn from "../assets/images/teams/john-new.webp";
+import imgIsa from "../assets/images/teams/isabel-new.webp";
+import imgFer from "../assets/images/teams/fernando.webp";
+
+import imgIngrid from "../assets/images/teams/ingrid.webp";
+import imgFlavio from "../assets/images/teams/flavio.webp";
+import imgTatiana from "../assets/images/teams/tatiana.webp";
+import imgFernanda from "../assets/images/teams/fernanda.webp";
+
+const teamAbogados: TeamInterface[] = [
+    {
+        name: "John Ortega",
+        position: "Abogado",
+        img: imgJohn,
+        items: ["Derecho Penal", "Derecho Administrativo", "Justicia Militar"],
+        master: [
+            "Diplomado en Derecho Penal y Derecho Procesal Penal.",
+            "Diplomado en Derecho Inmobiliario.",
+            "Curso Ley 20.000, que sanciona el tráfico ilícito de estupefacientes y sustancias psicotropicas.",
+        ],
+    },
+    {
+        name: "Isabel Uribe",
+        position: "Abogada",
+        img: imgIsa,
+        items: ["Derecho Civil", "Derecho de Familia"],
+        master: [
+            "Diplomado en Derecho Laboral.",
+            "Diplomado en Derecho Penal y Procesal Penal.",
+            "Curso de accidentes laborales y enfermedades profesionales.",
+            "Instrumentos Públicos y Instrumentos Privados.",
+        ],
+    },
+    {
+        name: "Fernando Gutiérrez",
+        position: "Abogado",
+        img: imgFer,
+        items: ["Derecho Laboral", "Derecho de Familia", "Deudas"],
+        master: [
+            "Diplomado en derecho laboral y empresa.",
+            "Diplomado en compliance público y municipal.",
+            "Postítulo en recursos procesales.",
+            "Diplomado en derecho ambiental.",
+        ],
+    },
+];
+
+const teamProcuradores: TeamInterface[] = [
+    {
+        name: "Ingrid Alvarado",
+        position: "Procuradora",
+        img: imgIngrid,
+        items: ["Tramitación de posesiones efectivas", "Saneamiento de la pequeña propiedad raíz"],
+    },
+    {
+        name: "Flavio Vargas",
+        position: "Procurador",
+        img: imgFlavio,
+        items: ["Tramitación ante Juzgado de Policía Local", "Licenciado en Técnico Jurídico"],
+    },
+    {
+        name: "Tatiana Uribe Maldonado",
+        position: "Asistente Social",
+        img: imgTatiana,
+        items: [
+            "Curso de Derechos de los Niños, Niñas y Adolescentes.",
+            "Conceptos Básicos y Generales sobre Drogas.",
+            "Curso de Equidad de Género y Masculinidad.",
+            "Curso de Peritaje Psicosocial Forense en el Ámbito Penal.",
+            "Curso de Manejo de Programas Sociales y de Información Social.",
+            "Curso de Herramientas para el Desarrollo Sustentable.",
+            "Curso de Gestión de Personas.",
+            "Curso de Embarazo y Salud Adolescente.",
+            "Curso de Prevención del Suicidio.",
+            "Curso de Prevención de Enfermedades y Accidentes Laborales.",
+            "Curso de Capacitación en Trato al Usuario.",
+            "Curso de Gestión en la Información en Salud.",
+            "Curso de Gestión Personal de Salud.",
+            "Curso de Prevención, Detección Temprana y Tratamiento de las Víctimas de Violencia de Género.",
+            "Curso de Cuidados para Adultos Mayores en el Contexto de la Atención de Salud Intra y Extra Hospitalaria.",
+        ],
+    },
+    {
+        name: "Fernanda Ibáñez González",
+        position: "Psicóloga",
+        img: imgFernanda,
+        items: [
+            "Autoagresiones y conducta suicida en NNA",
+            "Derechos sexuales, reproductivos y de vida libre de violencia para personas con discapacidad",
+            "Protocolos actualizados en violencia intrafamiliar y consumo problemático de alcohol",
+        ],
+        master: [
+            "Diplomado en Neuropsicología",
+            "Diplomado en Terapia Cognitivo-Conductual en Adultos",
+            "Diplomado en Intervenciones en Infancia Media y Adolescencia",
+        ],
+    },
+];
+---
+
+<div class="container mx-auto px-6 sm:px-8 md:px-10 lg:px-12 xl:px-0">
+    <div class="flex flex-col justify-center items-center">
+        <h2 class="tituloH1" data-aos="fade-down" data-aos-duration="800">Nuestro Equipo</h2>
+        <p
+            class="textAlternative py-3 sm:py-4 xl:py-[15px] text-center w-full sm:w-[85%] md:w-[75%] xl:w-[70%]"
+            data-aos="fade-up"
+            data-aos-duration="900"
+        >
+            Contamos con abogados especializados en distintas áreas del derecho, comprometidos con
+            la defensa de tus derechos y la búsqueda de soluciones efectivas para cada caso.
+        </p>
+    </div>
+    <div
+        class="flex flex-col sm:flex-col md:flex-row xl:flex-row gap-4 sm:gap-5 md:gap-6 xl:gap-8 mt-6 sm:mt-7 md:mt-8 xl:mt-[35px] items-center justify-center"
+    >
+        {
+            teamAbogados.map((item, index) => (
+                <div
+                    class="team-card flex flex-col items-center justify-center group w-full sm:w-[90%] md:w-auto"
+                    data-aos="zoom-in"
+                    data-aos-duration="800"
+                    data-aos-delay={index * 150}
+                >
+                    <div class="relative cursor-pointer w-full md:w-[280px] lg:w-[320px] xl:w-[350px] h-[380px] sm:h-[400px] md:h-[380px] lg:h-[400px] xl:h-[366px] overflow-hidden rounded-t-lg shadow-lg">
+                        <Image
+                            src={item.img}
+                            alt={item.name}
+                            class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                            widths={[309, 400]}
+                            sizes="309px"
+                            loading="lazy"
+                        />
+                        {/* Overlay mejorado */}
+                        <div class="absolute inset-0 bg-marron/75 opacity-0 group-hover:opacity-100 group-[.is-mobile-visible]:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-start py-4 sm:py-5 xl:py-6 px-4 sm:px-5 xl:px-6 overflow-y-auto pointer-events-none group-hover:pointer-events-auto group-[.is-mobile-visible]:pointer-events-auto z-10">
+                            <button
+                                class="team-card-close-btn absolute top-3 right-3 text-white lg:hidden z-20 bg-black/40 hover:bg-black/60 rounded-full p-2 transition-all duration-200 active:scale-95 pointer-events-auto"
+                                aria-label="Cerrar"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2.5"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <line x1="18" y1="6" x2="6" y2="18" />
+                                    <line x1="6" y1="6" x2="18" y2="18" />
+                                </svg>
+                            </button>
+                            {/* Nombre */}
+                            <h5 class="font-sans text-[18px] sm:text-[20px] xl:text-[22px] font-bold text-white text-center mb-3 xl:mb-4">
+                                {item.name}
+                            </h5>
+
+                            {/* Áreas de Especialización */}
+                            {item.items && item.items.length > 0 && (
+                                <div class="w-full mb-3 xl:mb-4">
+                                    <h6 class="font-sans text-[12px] sm:text-[13px] xl:text-[14px] font-bold text-white uppercase tracking-wider text-center mb-2 border-b border-white/30 pb-1">
+                                        Especialidades
+                                    </h6>
+                                    <ul class="space-y-1 xl:space-y-1.5">
+                                        {item.items.map((servicio) => (
+                                            <li class="text-white text-[13px] sm:text-[14px] xl:text-[15px] text-center font-sans leading-tight">
+                                                • {servicio}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+
+                            {/* Estudios de Posgrado */}
+                            {item.master && item.master.length > 0 && (
+                                <div class="w-full">
+                                    <h6 class="font-sans text-[12px] sm:text-[13px] xl:text-[14px] font-bold text-white uppercase tracking-wider text-center mb-2 border-b border-white/30 pb-1">
+                                        Estudios de Posgrado
+                                    </h6>
+                                    <ul class="space-y-1 xl:space-y-1.5">
+                                        {item.master.map((master) => (
+                                            <li class="text-white text-[12px] sm:text-[13px] xl:text-[14px] text-center font-sans leading-tight">
+                                                • {master}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    {/* Info card integrada */}
+                    <div class="w-full md:w-[280px] lg:w-[320px] xl:w-[350px] bg-gradient-to-b from-gris-bg to-white border border-gris-border rounded-b-lg px-4 sm:px-5 xl:px-6 py-5 xl:py-6 shadow-md group-hover:shadow-xl transition-shadow duration-300">
+                        <h5 class="font-sans text-[19px] sm:text-[20px] xl:text-[22px] font-bold text-secondary text-center leading-tight">
+                            {item.name}
+                        </h5>
+                        <div class="flex items-center justify-center gap-2 mt-3">
+                            <div class="h-[1px] w-[25px] sm:w-[28px] xl:w-[30px] bg-marron" />
+                            <p class="text-marron uppercase font-sans text-[11px] xl:text-[12px] tracking-[0.15em] xl:tracking-[0.2em] font-bold">
+                                {item.position}
+                            </p>
+                            <div class="h-[1px] w-[25px] sm:w-[28px] xl:w-[30px] bg-marron" />
+                        </div>
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+
+    <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6 xl:gap-8 mt-6 sm:mt-7 md:mt-8 xl:mt-[35px]"
+    >
+        {
+            teamProcuradores.map((item, index) => (
+                <div
+                    class="team-card flex flex-col group"
+                    data-aos="zoom-in"
+                    data-aos-duration="800"
+                    data-aos-delay={index * 150}
+                >
+                    <div class="relative cursor-pointer w-full h-[380px] sm:h-[400px] md:h-[380px] lg:h-[290px] xl:h-[300px] overflow-hidden rounded-t-lg shadow-lg">
+                        <Image
+                            src={item.img}
+                            alt={item.name}
+                            class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                            widths={[309, 400]}
+                            sizes="300px"
+                            loading="lazy"
+                        />
+                        {/* Overlay mejorado */}
+                        <div class="absolute inset-0 bg-marron/75 opacity-0 group-hover:opacity-100 group-[.is-mobile-visible]:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-start py-4 sm:py-5 xl:py-6 px-4 sm:px-5 xl:px-6 overflow-y-auto pointer-events-none group-hover:pointer-events-auto group-[.is-mobile-visible]:pointer-events-auto z-10">
+                            <button
+                                class="team-card-close-btn absolute top-3 right-3 text-white lg:hidden z-20 bg-black/40 hover:bg-black/60 rounded-full p-2 transition-all duration-200 active:scale-95 pointer-events-auto"
+                                aria-label="Cerrar"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2.5"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <line x1="18" y1="6" x2="6" y2="18" />
+                                    <line x1="6" y1="6" x2="18" y2="18" />
+                                </svg>
+                            </button>
+                            {/* Nombre */}
+                            <h5 class="font-sans text-[18px] sm:text-[20px] xl:text-[22px] font-bold text-white text-center mb-3 xl:mb-4">
+                                {item.name}
+                            </h5>
+
+                            {/* Áreas de Especialización */}
+                            {item.items && item.items.length > 0 && (
+                                <div class="w-full mb-3 xl:mb-4">
+                                    <h6 class="font-sans text-[12px] sm:text-[13px] xl:text-[14px] font-bold text-white uppercase tracking-wider text-center mb-2 border-b border-white/30 pb-1">
+                                        Especialidades
+                                    </h6>
+                                    <ul class="space-y-1 xl:space-y-1.5">
+                                        {item.items.map((servicio) => (
+                                            <li class="text-white text-[13px] sm:text-[14px] xl:text-[15px] text-center font-sans leading-tight">
+                                                • {servicio}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    {/* Info card integrada */}
+                    <div class="w-full bg-gradient-to-b from-gris-bg to-white border border-gris-border rounded-b-lg px-4 sm:px-5 xl:px-6 py-5 xl:py-6 shadow-md group-hover:shadow-xl transition-shadow duration-300 flex-grow">
+                        <h5 class="font-sans text-[19px] sm:text-[20px] xl:text-[22px] font-bold text-secondary text-center leading-tight">
+                            {item.name}
+                        </h5>
+                        <div class="flex items-center justify-center gap-2 mt-3">
+                            <div class="h-[1px] w-[25px] sm:w-[28px] xl:w-[30px] bg-marron" />
+                            <p class="text-marron uppercase font-sans text-[11px] xl:text-[12px] tracking-[0.15em] xl:tracking-[0.2em] font-bold">
+                                {item.position}
+                            </p>
+                            <div class="h-[1px] w-[25px] sm:w-[28px] xl:w-[30px] bg-marron" />
+                        </div>
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const teamCards = document.querySelectorAll(".team-card");
+        const DESKTOP_BREAKPOINT = 1024; // Tailwind's lg breakpoint
+
+        const closeAll = () => {
+            teamCards.forEach((c) => c.classList.remove("is-mobile-visible"));
+        };
+
+        teamCards.forEach((card) => {
+            const imageContainer = card.querySelector(".relative.cursor-pointer");
+            const overlay = card.querySelector(".absolute.inset-0");
+            const closeButton = card.querySelector(".team-card-close-btn");
+
+            // Abrir (solo móvil) al tocar la imagen/contenedor
+            if (imageContainer) {
+                const openHandler = (event: Event) => {
+                    if (window.innerWidth < DESKTOP_BREAKPOINT) {
+                        if (!card.classList.contains("is-mobile-visible")) {
+                            event.stopPropagation();
+                            card.classList.add("is-mobile-visible");
+                            card.setAttribute("aria-expanded", "true");
+                        }
+                    }
+                };
+                imageContainer.addEventListener("click", openHandler);
+                imageContainer.addEventListener("touchstart", openHandler, { passive: true });
+            }
+
+            // Cerrar con botón
+            if (closeButton) {
+                closeButton.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+                    card.classList.remove("is-mobile-visible");
+                    card.setAttribute("aria-expanded", "false");
+                });
+            }
+
+            // Cerrar tocando el fondo del overlay (no sus hijos)
+            if (overlay) {
+                overlay.addEventListener("click", (event) => {
+                    if (window.innerWidth < DESKTOP_BREAKPOINT) {
+                        if (event.target === overlay) {
+                            event.stopPropagation();
+                            card.classList.remove("is-mobile-visible");
+                            card.setAttribute("aria-expanded", "false");
+                        }
+                    }
+                });
+            }
+
+            // Evitar cierre por clicks dentro del contenido (excepto botón cerrar)
+            const overlayContent = overlay?.querySelectorAll("h5, h6, ul, li");
+            overlayContent?.forEach((el) => {
+                el.addEventListener("click", (event) => event.stopPropagation());
+            });
+        });
+
+        // Cerrar con Escape
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") closeAll();
+        });
+
+        // Cerrar al pasar a desktop o tras resize
+        let resizeTimer: number | undefined;
+        window.addEventListener("resize", () => {
+            if (resizeTimer) {
+                clearTimeout(resizeTimer);
+            }
+            resizeTimer = window.setTimeout(() => {
+                if (window.innerWidth >= DESKTOP_BREAKPOINT) {
+                    closeAll();
+                }
+            }, 200);
+        });
+    });
+</script>
