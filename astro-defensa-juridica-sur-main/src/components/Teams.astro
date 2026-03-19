@@ -61,7 +61,7 @@ const teamProcuradores: TeamInterface[] = [
    {
   name: "Cristian Fuenzalida Palma",
   position: "Abogado",
-  img: imgCristian, // ← IMPORTANTE (ver abajo)
+  img: null, // ← IMPORTANTE (ver abajo)
   items: [
     "SEREMI de Justicia y Derechos Humanos de Los Lagos (2023 – 2026)",
     "Abogado por la Universidad Finis Terrae",
@@ -142,19 +142,17 @@ const teamProcuradores: TeamInterface[] = [
                     data-aos-delay={index * 150}
                 >
                     <div class="relative cursor-pointer w-full md:w-[280px] lg:w-[320px] xl:w-[350px] h-[380px] sm:h-[400px] md:h-[380px] lg:h-[400px] xl:h-[366px] overflow-hidden rounded-t-lg shadow-lg">
-                   {/*
-<Image
-    src={item.img}
-    alt={item.name}
-    class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-    widths={[309, 400]}
-    sizes="309px"
-    loading="lazy"
+                   
+                    <Image
+  src={item.img}
+  alt={item.name}
+  class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+  widths={[309, 400]}
+  sizes="309px"
+  loading="lazy"
 />
-*/}
-<div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
-    Sin imagen
-</div>
+
+
                         {/* Overlay mejorado */}
                         <div class="absolute inset-0 bg-marron/75 opacity-0 group-hover:opacity-100 group-[.is-mobile-visible]:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-start py-4 sm:py-5 xl:py-6 px-4 sm:px-5 xl:px-6 overflow-y-auto pointer-events-none group-hover:pointer-events-auto group-[.is-mobile-visible]:pointer-events-auto z-10">
                             <button
@@ -243,14 +241,21 @@ const teamProcuradores: TeamInterface[] = [
                     data-aos-delay={index * 150}
                 >
                     <div class="relative cursor-pointer w-full h-[380px] sm:h-[400px] md:h-[380px] lg:h-[330px] xl:h-[350px] overflow-hidden rounded-t-lg shadow-lg">
-                        <Image
-                            src={item.img}
-                            alt={item.name}
-                            class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                            widths={[309, 400]}
-                            sizes="300px"
-                            loading="lazy"
-                        />
+                      {item.img ? (
+                      <Image
+                        src={item.img}
+                        alt={item.name}
+                        class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                        widths={[309, 400]}
+                        sizes="300px"
+                        loading="lazy"
+                          />
+                            ) : (
+  <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
+    Sin imagen
+  </div>
+)}
+</div>
                         {/* Overlay mejorado */}
                         <div class="absolute inset-0 bg-marron/75 opacity-0 group-hover:opacity-100 group-[.is-mobile-visible]:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-start py-4 sm:py-5 xl:py-6 px-4 sm:px-5 xl:px-6 overflow-y-auto pointer-events-none group-hover:pointer-events-auto group-[.is-mobile-visible]:pointer-events-auto z-10">
                             <button
