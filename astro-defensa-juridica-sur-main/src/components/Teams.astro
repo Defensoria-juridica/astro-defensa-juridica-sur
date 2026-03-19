@@ -229,7 +229,7 @@ const teamProcuradores: TeamInterface[] = [
     class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6 xl:gap-8 mt-6 sm:mt-7 md:mt-8 xl:mt-[35px]"
   >
     {
-      teamProcuradores.map((item, index) => (
+      teamProcuradores.map((member, index) => (
         <div
           class="team-card flex flex-col group"
           data-aos="zoom-in"
@@ -237,15 +237,12 @@ const teamProcuradores: TeamInterface[] = [
           data-aos-delay={index * 150}
         >
           <div class="relative cursor-pointer w-full h-[380px] sm:h-[400px] md:h-[380px] lg:h-[330px] xl:h-[350px] overflow-hidden rounded-t-lg shadow-lg">
-            {item.img ? (
-              <Image
-                src={item.img}
-                alt={item.name}
-                class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                widths={[309, 400]}
-                sizes="300px"
-                loading="lazy"
-              />
+            {member.img ? (
+               <Image
+                src={member.img}
+                alt={member.name}
+                  class="team-image"
+                />
             ) : (
               <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
                 Sin imagen
