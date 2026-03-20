@@ -31,7 +31,8 @@ interface SliderHomeProps {
 const defaultSlides: SlideData[] = [
     {
         id: 1,
-        title: "URIBE FITZGERALD y Cia.",
+        title: "Defensa Jurídica Sur",
+        description:"Defendemos tus derechos con experiencia en Derecho Penal, Laboral y Civil. Atención cercana y profesional en el sur de Chile."
         image: slider01,
         cta: {
             text: "Contáctanos",
