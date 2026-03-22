@@ -234,11 +234,11 @@ const teamProcuradores: TeamInterface[] = [
         {
             teamProcuradores.map((item, index) => (
                <div
-  class="team-card flex flex-col group"
-  data-aos="zoom-in"
-  data-aos-duration="800"
-  data-aos-delay={index * 150}
->
+                 class="team-card flex flex-col group"
+                 data-aos="zoom-in"
+                 data-aos-duration="800"
+                 data-aos-delay={index * 150}
+                 >
   <div class="relative cursor-pointer w-full h-[400px] sm:h-[420px] md:h-[420px] lg:h-[420px] xl:h-[420px] overflow-hidden rounded-t-lg shadow-lg">
     <Image
       src={item.img}
@@ -303,6 +303,9 @@ const teamProcuradores: TeamInterface[] = [
     </div>
   </div>
 </div>
+            ))
+        }
+        </div>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const teamCards = document.querySelectorAll(".team-card");
