@@ -177,7 +177,11 @@ const teamProcuradores: TeamInterface[] = [
                             <h5 class="font-sans text-[18px] sm:text-[20px] xl:text-[22px] font-bold text-white text-center mb-3 xl:mb-4">
                                 {item.name}
                             </h5>
-
+                            {item.cargo && (
+                            <p class="text-white text-[13px] text-center -mt-1 mb-3 opacity-90">
+                             {item.cargo}
+                            </p>
+                            )}
                             {/*Áreas de Especialización */}
                             {item.items && item.items.length > 0 && (
                                 <div class="w-full mb-3 xl:mb-4">
