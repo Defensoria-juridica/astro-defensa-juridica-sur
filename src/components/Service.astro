@@ -134,15 +134,15 @@ const serviceItems: ServiceInterface[] = [
                     data-aos-delay={index * 100}
                 >
                   <Image
-                        src={item.img}
-                        alt={`Icono ${item.title}`}
-                        class={`h-[45px] sm:h-[50px] lg:h-[55px] flex-shrink-0 ${
-                        item.title === "Derecho Corporativo y Compliance"
-                        ? "scale-130"
-                        : ""
+                    src={item.img}
+                    alt={`Icono ${item.title}`}
+                    class={`object-contain flex-shrink-0 ${
+                    item.title === "Derecho Corporativo y Compliance"
+                    ? "w-[80px] h-[80px] sm:w-[90px] sm:h-[90px] lg:w-[100px] lg:h-[100px]"
+                    : "w-[45px] h-[45px] sm:w-[50px] sm:h-[50px] lg:w-[55px] lg:h-[55px]"
                     }`}
-                     loading="lazy"
-                    />
+                    loading="lazy"
+                />
                     <div class="flex-1 min-w-0">
                         <h4 class="tituloH4">{item.title}</h4>
                         <ul class="mt-2 space-y-1">
