@@ -178,10 +178,10 @@ const teamProcuradores: TeamInterface[] = [
                             <h5 class="font-sans text-[18px] sm:text-[20px] xl:text-[22px] font-bold text-white text-center mb-3 xl:mb-4">
                                 {item.name}
                             </h5>
-                           {item.position && (
-                           <p class="text-white text-[13px] text-center -mt-1 mb-3 opacity-90">
-                           {item.position}
-                           </p>
+                          {item.cargo && (
+                            <p class="text-white text-[13px] text-center -mt-1 mb-3 opacity-90">
+                            {item.cargo}
+                            </p>
                             )}
                             {/*Áreas de Especialización */}
                             {item.items && item.items.length > 0 && (
@@ -221,11 +221,7 @@ const teamProcuradores: TeamInterface[] = [
                         <h5 class="font-sans text-[19px] sm:text-[20px] xl:text-[22px] font-bold text-secondary text-center leading-tight">
                             {item.name}
                         </h5>
-                        {item.cargo && (
-                            <p class="text-[13px] text-gray-500 text-center mt-1 leading-tight">
-                            {item.cargo}
-                             </p>
-                            )}
+                      
                         <div class="flex items-center justify-center gap-2 mt-3">
                             <div class="h-[1px] w-[25px] sm:w-[28px] xl:w-[30px] bg-marron" />
                             <p class="text-marron uppercase font-sans text-[11px] xl:text-[12px] tracking-[0.15em] xl:tracking-[0.2em] font-bold">
