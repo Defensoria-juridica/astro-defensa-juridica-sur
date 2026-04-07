@@ -233,7 +233,7 @@ export const SliderHome: React.FC<SliderHomeProps> = ({
                             <img
                                 src={imageUrl}
                                 alt={currentSlide.title}
-                                className="w-full h-full object-cover object-[center_25%]"
+                                className="w-full h-full object-contain object-center"
                             />
                         </picture>
                     ) : (
