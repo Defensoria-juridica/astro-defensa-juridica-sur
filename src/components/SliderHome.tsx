@@ -221,7 +221,7 @@ export const SliderHome: React.FC<SliderHomeProps> = ({
                 >
                     {/* Imagen de fondo responsive */}
                     {isResponsiveImage(currentSlide.image) ? (
-                        <picture className="absolute inset-0">
+                        <picture className="absolute inset-0 bg-black flex items-center justify-center">
                             {/* Imagen para móviles (< 768px) */}
                             <source
                                 media="(max-width: 767px)"
@@ -230,10 +230,14 @@ export const SliderHome: React.FC<SliderHomeProps> = ({
                             {/* Imagen para desktop (>= 768px) */}
                             <source media="(min-width: 768px)" srcSet={imageUrl} />
                             {/* Fallback para navegadores sin soporte de picture */}
-                            <img
-                                src={imageUrl}
-                                alt={currentSlide.title}
-                                className="w-full h-full object-cover object-[center_25%]"
+                           <img
+                             src={imageUrl}
+                             alt={currentSlide.title}
+                             className={
+                             currentSlide.id === 1
+                             ? "w-auto h-full object-contain mx-auto"
+                             : "w-full h-full object-cover object-center"
+                            }
                             />
                         </picture>
                     ) : (
