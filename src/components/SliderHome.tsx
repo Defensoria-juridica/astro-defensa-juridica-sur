@@ -199,7 +199,7 @@ export const SliderHome: React.FC<SliderHomeProps> = ({
 
     return (
         <section
-            className={`relative w-full h-[85vh] overflow-hidden ${className}`}
+            className={`relative w-full h-screen overflow-hidden ${className}`}
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
             onTouchStart={onTouchStart}
@@ -233,7 +233,7 @@ export const SliderHome: React.FC<SliderHomeProps> = ({
                             <img
                                 src={imageUrl}
                                 alt={currentSlide.title}
-                                className="w-full h-full object-cover object-[center_30%]"
+                                className="w-full h-full object-cover object-[center_25%]"
                             />
                         </picture>
                     ) : (
