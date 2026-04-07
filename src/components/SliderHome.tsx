@@ -31,7 +31,7 @@ interface SliderHomeProps {
 const defaultSlides: SlideData[] = [
     {
         id: 1,
-        title: "slider 1",
+        title: "Defensa Jurídica Sur",
         description:"Defendemos tus derechos con experiencia en Derecho Penal, Laboral y Civil. Atención cercana y profesional en el sur de Chile.",
         image: slider01,
         cta: {
@@ -41,7 +41,7 @@ const defaultSlides: SlideData[] = [
     },
     {
         id: 2,
-        title: "slider 2",
+        title: "Compromiso y Experiencia a tu Servicio",
         description:
             "Profesionales unidos para defender tus derechos y acompañarte en cada etapa del proceso legal.",
         image: {
@@ -235,8 +235,8 @@ export const SliderHome: React.FC<SliderHomeProps> = ({
                              alt={currentSlide.title}
                              className={
                              currentSlide.id === 1
-                             ? "w-auto h-full object-contain mx-auto"
-                             : "w-full h-full object-cover object-[center_30%]"
+                             ?"w-full h-full object-cover object-[center_15%]"
+                             :"w-full h-full object-cover object-[center_30%]"
                             }
                             />
                         </picture>
