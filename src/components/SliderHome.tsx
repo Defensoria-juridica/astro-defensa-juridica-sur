@@ -31,7 +31,7 @@ interface SliderHomeProps {
 const defaultSlides: SlideData[] = [
     {
         id: 1,
-        title: "Defensa Jurídica Sur",
+        title: "slider 1",
         description:"Defendemos tus derechos con experiencia en Derecho Penal, Laboral y Civil. Atención cercana y profesional en el sur de Chile.",
         image: slider01,
         cta: {
@@ -41,7 +41,7 @@ const defaultSlides: SlideData[] = [
     },
     {
         id: 2,
-        title: "Compromiso y experiencia a tu servicio",
+        title: "slider 2",
         description:
             "Profesionales unidos para defender tus derechos y acompañarte en cada etapa del proceso legal.",
         image: {
