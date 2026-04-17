@@ -235,7 +235,7 @@ export const SliderHome: React.FC<SliderHomeProps> = ({
                              alt={currentSlide.title}
                              className={
                              currentSlide.id === 1
-                             ?"w-full h-full object-cover object-[center_20%]"
+                             ?"w-full h-full object-cover object-[center_30%]"
                              :"w-full h-full object-cover object-[center_25%]"
                             }
                             />
