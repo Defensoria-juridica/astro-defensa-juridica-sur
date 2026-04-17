@@ -199,7 +199,7 @@ export const SliderHome: React.FC<SliderHomeProps> = ({
 
     return (
         <section
-            className={`relative w-full h-[110vh] overflow-hidden ${className}`}
+            className={`relative w-full h-[100vh] overflow-hidden ${className}`}
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
             onTouchStart={onTouchStart}
