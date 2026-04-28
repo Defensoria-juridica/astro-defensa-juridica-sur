@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { AnimatePresence, motion } from "motion/react";
 
 // Assets de imágenes optimizadas
-import slider01 from "../assets/images/portadahome-optimized.png";
+import slider01 from "../assets/images/portadahome1.webp";
 import slider02 from "../assets/images/portadahomesec.webp";
 import slider02mobile from "../assets/images/slider-02-mobile.webp";
 
