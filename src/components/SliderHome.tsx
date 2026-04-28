@@ -251,7 +251,7 @@ export const SliderHome: React.FC<SliderHomeProps> = ({
                     <div className="absolute inset-0 bg-black/50 z-10" />
 
                     {/* Contenido del slide */}
-                    <div className="container mx-auto flex flex-col items-center justify-center h-full relative z-20 px-6">
+                    <div className="container mx-auto flex flex-col items-center justify-center h-full relative z-20 px-6 pt-24">
                         <div className="text-center max-w-4xl">
                             {/* Título animado */}
                             <motion.p
