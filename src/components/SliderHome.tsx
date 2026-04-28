@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 
 // Assets de imágenes optimizadas
 import slider01 from "../assets/images/portada12.webp";
-import slider02 from "../assets/images/portadahomesec.webp";
+import slider02 from "../assets/images/portadasec12.webp";
 import slider02mobile from "../assets/images/slider-02-mobile.webp";
 
 // Tipos
