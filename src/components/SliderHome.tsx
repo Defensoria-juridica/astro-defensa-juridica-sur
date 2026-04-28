@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 
 // Assets de imágenes optimizadas
 import slider01 from "../assets/images/portada12.webp";
-import slider02 from "../assets/images/portadasec12.webp";
+import slider02 from "../assets/images/portada2definitiva.webp";
 import slider02mobile from "../assets/images/slider-02-mobile.webp";
 
 // Tipos
@@ -235,8 +235,8 @@ export const SliderHome: React.FC<SliderHomeProps> = ({
                              alt={currentSlide.title}
                              className={
                              currentSlide.id === 1
-                             ?"w-full h-full object-cover object-[center_90%]"
-                             :"w-full h-full object-cover object-[center_25%]"
+                             ?"w-full h-full object-cover object-[center_85%]"
+                             :"w-full h-full object-cover object-[center_50%]"
                             }
                             />
                         </picture>
