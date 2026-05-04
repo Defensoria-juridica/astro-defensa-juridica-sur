@@ -1,14 +1,12 @@
 import type { APIRoute } from "astro";
 import sgMail from "@sendgrid/mail";
 
-// Configurar SendGrid con la API key
-const SENDGRID_API_KEY = import.meta.env.SENDGRID_API_KEY;
-const FROM_EMAIL = import.meta.env.SENDGRID_FROM_EMAIL || "noreply@defensajuridicasur.cl";
-const TO_EMAIL = import.meta.env.SENDGRID_TO_EMAIL || "juridicasurdefensa@gmail.com";
-
+const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
+const FROM_EMAIL = process.env.SENDGRID_FROM_EMAIL || "sebastiancarcamova@gmail.com";
+const TO_EMAIL = process.env.SENDGRID_TO_EMAIL || "sebastiancarcamova@gmail.com";
 
 if (SENDGRID_API_KEY) {
-    sgMail.setApiKey(SENDGRID_API_KEY);
+  sgMail.setApiKey(SENDGRID_API_KEY);
 }
 
 export const POST: APIRoute = async ({ request }) => {
