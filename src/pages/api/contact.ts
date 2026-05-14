@@ -5,7 +5,7 @@ const SENDGRID_API_KEY = import.meta.env.SENDGRID_API_KEY;
 const FROM_EMAIL =
   import.meta.env.SENDGRID_FROM_EMAIL || "contacto@defensajuridicasur.cl";
 const TO_EMAIL =
-  import.meta.env.SENDGRID_TO_EMAIL || "juridicasurdefensa@gmail.com";
+  import.meta.env.SENDGRID_TO_EMAIL || "contacto@defensajuridicasur.cl";
 
 if (SENDGRID_API_KEY) {
   sgMail.setApiKey(SENDGRID_API_KEY);
