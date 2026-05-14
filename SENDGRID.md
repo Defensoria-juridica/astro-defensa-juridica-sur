@@ -10,7 +10,7 @@ Este documento contiene todas las instrucciones para configurar SendGrid en el p
 
 ### Variables de Entorno Requeridas
 ```env
-SENDGRID_API_KEY=tu_api_key_aquí
+SENDGRID_API_KEY=TU_API_KEY
 SENDGRID_FROM_EMAIL=contacto@defensajuridicasur.cl
 SENDGRID_TO_EMAIL=juridicasurdefensa@gmail.com
 ```
