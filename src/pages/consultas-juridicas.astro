@@ -1,0 +1,179 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ForumHero from "../components/forum/ForumHero.astro";
+
+const categorias = [
+  {
+    nombre: "Derecho Laboral",
+    descripcion: "Consultas sobre despidos, finiquitos, licencias médicas, sueldos y derechos laborales.",
+    url: "/consultas-juridicas/derecho-laboral",
+  },
+  {
+    nombre: "Derecho de Familia",
+    descripcion: "Consultas sobre pensión de alimentos, cuidado personal, visitas y causas de familia.",
+    url: "/consultas-juridicas/derecho-familia",
+  },
+  {
+    nombre: "Derecho Penal",
+    descripcion: "Orientación general sobre denuncias, delitos, audiencias y defensa penal.",
+    url: "/consultas-juridicas/derecho-penal",
+  },
+  {
+    nombre: "Derecho Civil",
+    descripcion: "Consultas sobre contratos, deudas, arriendos, herencias y conflictos civiles.",
+    url: "/consultas-juridicas/derecho-civil",
+  },
+  {
+    nombre: "Otras Consultas",
+    descripcion: "Preguntas jurídicas generales que no pertenecen a una categoría específica.",
+    url: "/consultas-juridicas/otras-consultas",
+  },
+];
+
+const consultasRecientes = [
+  {
+    titulo: "¿Me pueden despedir estando con licencia médica?",
+    categoria: "Derecho Laboral",
+    fecha: "Publicado recientemente",
+    url: "/consultas-juridicas/derecho-laboral/despido-con-licencia-medica",
+  },
+  {
+    titulo: "¿Cómo solicitar aumento de pensión de alimentos?",
+    categoria: "Derecho de Familia",
+    fecha: "Publicado recientemente",
+    url: "/consultas-juridicas/derecho-familia/aumento-pension-alimentos",
+  },
+  {
+    titulo: "¿Qué hacer si recibí una demanda civil?",
+    categoria: "Derecho Civil",
+    fecha: "Publicado recientemente",
+    url: "/consultas-juridicas/derecho-civil/demanda-civil",
+  },
+];
+---
+<Layout>
+  <main class="bg-white">
+    <ForumHero />
+
+    <section class="bg-gris-bg py-[80px]">
+      <div class="container mx-auto px-4">
+        <div class="mb-12 text-center">
+          <h2 class="mb-4 text-3xl font-bold text-gray-900">
+            Categorías de consulta
+          </h2>
+
+          <p class="mx-auto max-w-2xl text-gray-600">
+            Selecciona el área jurídica relacionada con tu consulta.
+          </p>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {categorias.map((categoria) => (
+            <a
+              href={categoria.url}
+              class="group rounded-2xl bg-white p-7 shadow-md transition hover:-translate-y-1 hover:shadow-xl"
+            >
+              <h3 class="mb-3 text-xl font-bold text-gray-900 group-hover:text-black">
+                {categoria.nombre}
+              </h3>
+
+              <p class="mb-5 text-sm leading-relaxed text-gray-600">
+                {categoria.descripcion}
+              </p>
+
+              <span class="font-semibold text-black">
+                Ver consultas →
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white py-[80px]">
+      <div class="container mx-auto px-4">
+        <div class="mx-auto max-w-4xl rounded-3xl bg-black p-8 text-center text-white md:p-12">
+          <h2 class="mb-4 text-3xl font-bold">
+            ¿Necesitas realizar una consulta?
+          </h2>
+
+          <p class="mb-8 text-gray-300">
+            Puedes enviar una consulta jurídica general. Nuestro equipo revisará
+            la información y podrá responder o contactar contigo según corresponda.
+          </p>
+
+          <a
+            href="#formulario-consulta"
+            class="inline-block rounded-full bg-white px-8 py-4 font-bold text-black transition hover:bg-gray-200"
+          >
+            Enviar consulta
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="formulario-consulta" class="bg-gris-bg py-[80px]">
+      <div class="container mx-auto px-4">
+        <div class="mx-auto max-w-3xl rounded-2xl bg-white p-8 shadow-lg">
+          <h2 class="mb-6 text-3xl font-bold text-gray-900">
+            Enviar consulta jurídica
+          </h2>
+
+          <form class="grid gap-5">
+            <input
+              type="text"
+              placeholder="Nombre completo"
+              class="rounded-lg border border-gray-300 px-4 py-3"
+            />
+
+            <input
+              type="email"
+              placeholder="Correo electrónico"
+              class="rounded-lg border border-gray-300 px-4 py-3"
+            />
+
+            <input
+              type="text"
+              placeholder="WhatsApp"
+              class="rounded-lg border border-gray-300 px-4 py-3"
+            />
+
+            <select class="rounded-lg border border-gray-300 px-4 py-3">
+              <option>Seleccione una categoría</option>
+              {categorias.map((categoria) => (
+                <option>{categoria.nombre}</option>
+              ))}
+            </select>
+
+            <input
+              type="text"
+              placeholder="Título de la consulta"
+              class="rounded-lg border border-gray-300 px-4 py-3"
+            />
+
+            <textarea
+              rows="6"
+              placeholder="Escribe el detalle de tu consulta"
+              class="rounded-lg border border-gray-300 px-4 py-3"
+            ></textarea>
+
+            <label class="flex gap-3 text-sm text-gray-600">
+              <input type="checkbox" class="mt-1" />
+              <span>
+                Acepto que esta consulta tiene carácter informativo y no reemplaza
+                una asesoría jurídica personalizada.
+              </span>
+            </label>
+
+            <button
+              type="button"
+              class="rounded-full bg-black px-8 py-4 font-bold text-white transition hover:bg-gray-800"
+            >
+              Enviar consulta
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

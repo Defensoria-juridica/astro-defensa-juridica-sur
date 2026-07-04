@@ -1,0 +1,33 @@
+---
+const phone = "56958835620";
+const message = "Hola, quiero realizar una consulta jurídica.";
+const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+---
+
+<a
+    href={whatsappUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Contactar por WhatsApp"
+    class="fixed bottom-8 right-6 z-50 group flex items-center gap-3"
+>
+    <span
+        class="hidden sm:block bg-white text-[#2f2f2f] px-4 py-2 rounded-full shadow-lg text-sm font-medium opacity-0 translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
+    >
+        ¿Necesitas ayuda? Escríbenos
+    </span>
+
+    <span
+        class="w-16 h-16 rounded-full bg-[#25D366] hover:bg-[#1ebe5d] shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110"
+    >
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 32 32"
+            class="w-9 h-9 fill-white"
+        >
+            <path
+                d="M16.04 3C8.83 3 3 8.83 3 16.04c0 2.3.6 4.54 1.75 6.52L3 29l6.62-1.7a13.02 13.02 0 0 0 6.42 1.65C23.25 28.95 29 23.2 29 16.04 29 8.83 23.25 3 16.04 3Zm0 23.7c-2.05 0-4.02-.55-5.75-1.6l-.41-.24-3.93 1.01 1.05-3.82-.27-.43a10.65 10.65 0 0 1-1.62-5.58c0-6.01 4.91-10.92 10.93-10.92 6 0 10.86 4.91 10.86 10.92 0 5.99-4.86 10.66-10.86 10.66Zm6.02-8.18c-.33-.17-1.95-.96-2.25-1.07-.3-.11-.52-.17-.74.17-.22.33-.85 1.07-1.04 1.29-.19.22-.38.25-.71.08-.33-.17-1.39-.51-2.65-1.63-.98-.87-1.64-1.95-1.83-2.28-.19-.33-.02-.51.14-.68.14-.14.33-.38.49-.57.16-.19.22-.33.33-.55.11-.22.05-.41-.03-.57-.08-.17-.74-1.79-1.01-2.45-.27-.64-.54-.55-.74-.56h-.63c-.22 0-.57.08-.87.41-.3.33-1.14 1.11-1.14 2.7s1.17 3.14 1.33 3.36c.16.22 2.3 3.5 5.58 4.91.78.34 1.39.54 1.86.69.78.25 1.49.21 2.05.13.63-.09 1.95-.8 2.23-1.57.27-.77.27-1.43.19-1.57-.08-.14-.3-.22-.63-.38Z"
+            />
+        </svg>
+    </span>
+</a>
