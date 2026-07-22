@@ -55,7 +55,7 @@ const consultasRecientes = [
   <main class="bg-white">
     <ForumHero />
 
-    <section class="bg-gris-bg py-[80px]">
+    <section id="categorias" class="bg-gris-bg py-[80px]">
       <div class="container mx-auto px-4">
         <div class="mb-12 text-center">
           <h2 class="mb-4 text-3xl font-bold text-gray-900">
@@ -89,6 +89,49 @@ const consultasRecientes = [
         </div>
       </div>
     </section>
+
+    <section id="consultas-recientes" class="bg-white py-[80px]">
+  <div class="container mx-auto px-4">
+
+    <div class="mb-12 text-center">
+      <h2 class="mb-4 text-3xl font-bold text-gray-900">
+        Consultas recientes
+      </h2>
+
+      <p class="mx-auto max-w-2xl text-gray-600">
+        Revisa algunas consultas publicadas recientemente por nuestros usuarios.
+      </p>
+    </div>
+
+    <div class="grid gap-6 lg:grid-cols-3">
+
+      {consultasRecientes.map((consulta) => (
+
+        <a
+          href={consulta.url}
+          class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+        >
+
+          <span class="mb-4 inline-block rounded-full bg-yellow-100 px-3 py-1 text-sm font-semibold text-yellow-700">
+            {consulta.categoria}
+          </span>
+
+          <h3 class="mb-4 text-xl font-bold text-gray-900">
+            {consulta.titulo}
+          </h3>
+
+          <p class="text-sm text-gray-500">
+            {consulta.fecha}
+          </p>
+
+        </a>
+
+      ))}
+
+    </div>
+
+  </div>
+</section>
 
     <section class="bg-white py-[80px]">
       <div class="container mx-auto px-4">
