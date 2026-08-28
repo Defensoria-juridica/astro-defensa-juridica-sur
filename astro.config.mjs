@@ -35,7 +35,7 @@ export default defineConfig({
 
         // Optimizaciones adicionales para el build
         build: {
-            cssCodeSplit: false, // Un solo archivo CSS
+            cssCodeSplit: true, // Mantiene los estilos específicos aislados por página
             rollupOptions: {
                 output: {
                     assetFileNames: "assets/[name].[hash][extname]"

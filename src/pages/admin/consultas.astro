@@ -30,29 +30,35 @@ const consultas = await consultarSupabase<ConsultaAdmin[]>(
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="es" class="admin-consultas-page">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="robots" content="noindex, nofollow" />
     <title>Consultas | Administración</title>
     <style>
-      :root { font-family: Arial, sans-serif; color: #212529; background: #f5f5f4; }
-      body { margin: 0; } header { padding: 22px max(24px, calc((100% - 1100px) / 2)); background: #212529; color: white; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
-      header h1 { margin: 0; font-size: 22px; } header form { margin: 0; }
-      main { width: min(1100px, calc(100% - 40px)); margin: 36px auto; }
-      nav { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 26px; }
-      nav a, button { border: 0; border-radius: 999px; padding: 10px 16px; font-weight: 700; cursor: pointer; text-decoration: none; }
-      nav a { color: #212529; background: white; } nav a.activo { color: white; background: #c18f59; }
-      article { padding: 26px; margin-bottom: 22px; background: white; border-radius: 16px; box-shadow: 0 5px 20px #00000012; }
-      .meta { color: #666; font-size: 14px; } .detalle { line-height: 1.6; white-space: pre-wrap; }
-      .contacto { padding: 12px; background: #f7f7f7; border-radius: 8px; }
-      .acciones { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
-      .aprobar { color: white; background: #15803d; } .rechazar { color: white; background: #b91c1c; } .salir { color: #212529; background: white; }
-      textarea { box-sizing: border-box; width: 100%; min-height: 120px; margin-top: 12px; padding: 12px; border: 1px solid #ccc; border-radius: 8px; }
-      .respuesta button { color: white; background: #212529; margin-top: 10px; }
-      .mensaje { padding: 14px; color: #166534; background: #dcfce7; border-radius: 8px; }
-      .vacio { padding: 35px; text-align: center; background: white; border-radius: 16px; color: #666; }
+      .admin-consultas-page { font-family: Arial, sans-serif; color: #212529; background: #f5f5f4; }
+      .admin-consultas-page body { margin: 0; }
+      .admin-consultas-page header { padding: 22px max(24px, calc((100% - 1100px) / 2)); background: #212529; color: white; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+      .admin-consultas-page header h1 { margin: 0; font-size: 22px; }
+      .admin-consultas-page header form { margin: 0; }
+      .admin-consultas-page main { width: min(1100px, calc(100% - 40px)); margin: 36px auto; }
+      .admin-consultas-page nav { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 26px; }
+      .admin-consultas-page nav a, .admin-consultas-page button { border: 0; border-radius: 999px; padding: 10px 16px; font-weight: 700; cursor: pointer; text-decoration: none; }
+      .admin-consultas-page nav a { color: #212529; background: white; }
+      .admin-consultas-page nav a.activo { color: white; background: #c18f59; }
+      .admin-consultas-page article { padding: 26px; margin-bottom: 22px; background: white; border-radius: 16px; box-shadow: 0 5px 20px #00000012; }
+      .admin-consultas-page .meta { color: #666; font-size: 14px; }
+      .admin-consultas-page .detalle { line-height: 1.6; white-space: pre-wrap; }
+      .admin-consultas-page .contacto { padding: 12px; background: #f7f7f7; border-radius: 8px; }
+      .admin-consultas-page .acciones { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+      .admin-consultas-page .aprobar { color: white; background: #15803d; }
+      .admin-consultas-page .rechazar { color: white; background: #b91c1c; }
+      .admin-consultas-page .salir { color: #212529; background: white; }
+      .admin-consultas-page textarea { box-sizing: border-box; width: 100%; min-height: 120px; margin-top: 12px; padding: 12px; border: 1px solid #ccc; border-radius: 8px; }
+      .admin-consultas-page .respuesta button { color: white; background: #212529; margin-top: 10px; }
+      .admin-consultas-page .mensaje { padding: 14px; color: #166534; background: #dcfce7; border-radius: 8px; }
+      .admin-consultas-page .vacio { padding: 35px; text-align: center; background: white; border-radius: 16px; color: #666; }
     </style>
   </head>
   <body>
@@ -105,4 +111,3 @@ const consultas = await consultarSupabase<ConsultaAdmin[]>(
     </main>
   </body>
 </html>
-
