@@ -1,0 +1,108 @@
+---
+import { sesionValida } from "../../lib/admin-auth";
+import { consultarSupabase } from "../../lib/supabase";
+
+if (!(await sesionValida(Astro.cookies))) {
+  return Astro.redirect("/admin/login");
+}
+
+interface ConsultaAdmin {
+  id: string;
+  nombre: string;
+  correo: string;
+  whatsapp: string;
+  titulo: string;
+  detalle: string;
+  estado: "pendiente" | "publicada" | "rechazada";
+  creada_en: string;
+  categorias: { nombre: string } | null;
+  respuestas: Array<{ id: string; contenido: string; publicada: boolean }>;
+}
+
+const filtro = Astro.url.searchParams.get("estado") ?? "pendiente";
+const estado = ["pendiente", "publicada", "rechazada"].includes(filtro)
+  ? filtro
+  : "pendiente";
+const mensaje = Astro.url.searchParams.get("mensaje");
+const consultas = await consultarSupabase<ConsultaAdmin[]>(
+  `consultas?select=id,nombre,correo,whatsapp,titulo,detalle,estado,creada_en,categorias(nombre),respuestas(id,contenido,publicada)&estado=eq.${estado}&order=creada_en.desc`,
+);
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Consultas | Administración</title>
+    <style>
+      :root { font-family: Arial, sans-serif; color: #212529; background: #f5f5f4; }
+      body { margin: 0; } header { padding: 22px max(24px, calc((100% - 1100px) / 2)); background: #212529; color: white; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+      header h1 { margin: 0; font-size: 22px; } header form { margin: 0; }
+      main { width: min(1100px, calc(100% - 40px)); margin: 36px auto; }
+      nav { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 26px; }
+      nav a, button { border: 0; border-radius: 999px; padding: 10px 16px; font-weight: 700; cursor: pointer; text-decoration: none; }
+      nav a { color: #212529; background: white; } nav a.activo { color: white; background: #c18f59; }
+      article { padding: 26px; margin-bottom: 22px; background: white; border-radius: 16px; box-shadow: 0 5px 20px #00000012; }
+      .meta { color: #666; font-size: 14px; } .detalle { line-height: 1.6; white-space: pre-wrap; }
+      .contacto { padding: 12px; background: #f7f7f7; border-radius: 8px; }
+      .acciones { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+      .aprobar { color: white; background: #15803d; } .rechazar { color: white; background: #b91c1c; } .salir { color: #212529; background: white; }
+      textarea { box-sizing: border-box; width: 100%; min-height: 120px; margin-top: 12px; padding: 12px; border: 1px solid #ccc; border-radius: 8px; }
+      .respuesta button { color: white; background: #212529; margin-top: 10px; }
+      .mensaje { padding: 14px; color: #166534; background: #dcfce7; border-radius: 8px; }
+      .vacio { padding: 35px; text-align: center; background: white; border-radius: 16px; color: #666; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Consultas jurídicas</h1>
+      <form method="post" action="/api/admin/logout"><button class="salir">Cerrar sesión</button></form>
+    </header>
+    <main>
+      <nav>
+        <a class:list={{ activo: estado === "pendiente" }} href="/admin/consultas?estado=pendiente">Pendientes</a>
+        <a class:list={{ activo: estado === "publicada" }} href="/admin/consultas?estado=publicada">Publicadas</a>
+        <a class:list={{ activo: estado === "rechazada" }} href="/admin/consultas?estado=rechazada">Rechazadas</a>
+      </nav>
+      {mensaje && <p class="mensaje">Cambio guardado correctamente.</p>}
+      {consultas.map((consulta) => (
+        <article>
+          <p class="meta">{consulta.categorias?.nombre} · {new Date(consulta.creada_en).toLocaleString("es-CL")}</p>
+          <h2>{consulta.titulo}</h2>
+          <p class="detalle">{consulta.detalle}</p>
+          <p class="contacto"><strong>{consulta.nombre}</strong><br />{consulta.correo}<br />{consulta.whatsapp}</p>
+
+          <div class="acciones">
+            {consulta.estado !== "publicada" && (
+              <form method="post" action="/api/admin/consultas">
+                <input type="hidden" name="id" value={consulta.id} />
+                <input type="hidden" name="accion" value="publicar" />
+                <button class="aprobar">Aprobar y publicar</button>
+              </form>
+            )}
+            {consulta.estado !== "rechazada" && (
+              <form method="post" action="/api/admin/consultas">
+                <input type="hidden" name="id" value={consulta.id} />
+                <input type="hidden" name="accion" value="rechazar" />
+                <button class="rechazar">Rechazar</button>
+              </form>
+            )}
+          </div>
+
+          <form class="respuesta" method="post" action="/api/admin/consultas">
+            <input type="hidden" name="id" value={consulta.id} />
+            <input type="hidden" name="accion" value="responder" />
+            <label><strong>Respuesta pública</strong></label>
+            <textarea name="contenido" required minlength="20" maxlength="10000" placeholder="Escribe la orientación jurídica..."></textarea>
+            <button>Guardar respuesta y publicar consulta</button>
+          </form>
+          {consulta.respuestas?.map((respuesta) => <p class="detalle"><strong>Respuesta guardada:</strong><br />{respuesta.contenido}</p>)}
+        </article>
+      ))}
+      {consultas.length === 0 && <p class="vacio">No hay consultas en esta sección.</p>}
+    </main>
+  </body>
+</html>
+

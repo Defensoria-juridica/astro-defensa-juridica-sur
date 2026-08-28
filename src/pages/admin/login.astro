@@ -1,0 +1,43 @@
+---
+import { adminConfigurado, sesionValida } from "../../lib/admin-auth";
+
+if (await sesionValida(Astro.cookies)) {
+  return Astro.redirect("/admin/consultas");
+}
+
+const error = Astro.url.searchParams.get("error");
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Administración | Defensa Jurídica Sur</title>
+    <style>
+      :root { font-family: Arial, sans-serif; color: #212529; background: #f4f5f6; }
+      body { min-height: 100vh; margin: 0; display: grid; place-items: center; }
+      main { width: min(420px, calc(100% - 40px)); background: white; padding: 36px; border-radius: 18px; box-shadow: 0 16px 40px #0002; }
+      h1 { margin-top: 0; } label { display: block; margin-bottom: 8px; font-weight: 700; }
+      input { box-sizing: border-box; width: 100%; padding: 13px; border: 1px solid #ccd0d4; border-radius: 8px; }
+      button { width: 100%; margin-top: 18px; padding: 14px; border: 0; border-radius: 999px; color: white; background: #212529; font-weight: 700; cursor: pointer; }
+      .error { padding: 12px; color: #991b1b; background: #fef2f2; border-radius: 8px; }
+      .aviso { padding: 12px; color: #854d0e; background: #fefce8; border-radius: 8px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Panel administrativo</h1>
+      <p>Defensa Jurídica Sur</p>
+      {!adminConfigurado && <p class="aviso">Falta configurar la contraseña administrativa en el servidor.</p>}
+      {error && <p class="error">Contraseña incorrecta.</p>}
+      <form method="post" action="/api/admin/login">
+        <label for="password">Contraseña</label>
+        <input id="password" name="password" type="password" required autocomplete="current-password" />
+        <button type="submit">Ingresar</button>
+      </form>
+    </main>
+  </body>
+</html>
+

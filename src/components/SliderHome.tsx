@@ -32,7 +32,7 @@ const defaultSlides: SlideData[] = [
     {
         id: 1,
         title: "Defensa Jurídica Sur",
-        description:"Defendemos tus derechos con experiencia, profesionalismo y Atención cercana en el sur de Chile.",
+        description:"Defendemos tus derechos con experiencia, profesionalismo y Atención cercana en todo Chile.",
         image: slider01,
         cta: {
             text: "Contáctanos",
