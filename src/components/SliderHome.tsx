@@ -7,7 +7,7 @@ import slider02 from "../assets/images/portada2definitiva.webp";
 import slider02mobile from "../assets/images/slider-02-mobile.webp";
 
 // Tipos
-interface SlideData {   
+interface SlideData {
     id: number;
     title: string;
     description?: string;
@@ -32,7 +32,8 @@ const defaultSlides: SlideData[] = [
     {
         id: 1,
         title: "Defensa Jurídica Sur",
-        description:"Defendemos tus derechos con experiencia, profesionalismo y Atención cercana en todo Chile.",
+        description:
+            "Defendemos tus derechos con experiencia, profesionalismo y Atención cercana en todo Chile.",
         image: slider01,
         cta: {
             text: "Contáctanos",
@@ -173,12 +174,7 @@ export const SliderHome: React.FC<SliderHomeProps> = ({
     const isResponsiveImage = (
         img: SlideData["image"],
     ): img is { desktop: string | { src: string }; mobile: string | { src: string } } => {
-        return (
-            typeof img === "object" &&
-            img !== null &&
-            "desktop" in img &&
-            "mobile" in img
-        );
+        return typeof img === "object" && img !== null && "desktop" in img && "mobile" in img;
     };
 
     // Helper para extraer URL de imagen
@@ -223,21 +219,18 @@ export const SliderHome: React.FC<SliderHomeProps> = ({
                     {isResponsiveImage(currentSlide.image) ? (
                         <picture className="absolute inset-0 bg-black flex items-center justify-center">
                             {/* Imagen para móviles (< 768px) */}
-                            <source
-                                media="(max-width: 767px)"
-                                srcSet={mobileImageUrl}
-                            />
+                            <source media="(max-width: 767px)" srcSet={mobileImageUrl} />
                             {/* Imagen para desktop (>= 768px) */}
                             <source media="(min-width: 768px)" srcSet={imageUrl} />
                             {/* Fallback para navegadores sin soporte de picture */}
-                           <img
-                             src={imageUrl}
-                             alt={currentSlide.title}
-                             className={
-                             currentSlide.id === 1
-                             ?"w-full h-full object-cover object-[center_85%]"
-                             :"w-full h-full object-cover object-[center_50%]"
-                            }
+                            <img
+                                src={imageUrl}
+                                alt={currentSlide.title}
+                                className={
+                                    currentSlide.id === 1
+                                        ? "w-full h-full object-cover object-[center_85%]"
+                                        : "w-full h-full object-cover object-[center_50%]"
+                                }
                             />
                         </picture>
                     ) : (
@@ -254,15 +247,17 @@ export const SliderHome: React.FC<SliderHomeProps> = ({
                     <div className="container mx-auto flex flex-col items-center justify-center h-full relative z-20 px-6 pt-24">
                         <div className="text-center max-w-4xl">
                             {/* Título animado */}
-                            <motion.p
+                            <motion.h1
                                 className="tituloH1Alternative mb-6 uppercase"
                                 custom={0}
                                 variants={contentVariants}
                                 initial="hidden"
                                 animate="visible"
                             >
-                                {currentSlide.title}
-                            </motion.p>
+                                {currentSlide.id === 1
+                                    ? `Abogados en Puerto Montt | ${currentSlide.title}`
+                                    : currentSlide.title}
+                            </motion.h1>
 
                             {/* Descripción animada */}
                             <motion.p

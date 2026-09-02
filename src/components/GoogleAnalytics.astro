@@ -1,31 +1,73 @@
 ---
 const GA_ID = import.meta.env.PUBLIC_GA_ID;
-const ADS_ID = "AW-18354541073";
+const ADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID || "AW-18354541073";
+const ADS_CONTACT_LABEL = import.meta.env.PUBLIC_GOOGLE_ADS_CONTACT_LABEL;
+const ADS_WHATSAPP_LABEL = import.meta.env.PUBLIC_GOOGLE_ADS_WHATSAPP_LABEL;
+const ADS_PHONE_LABEL = import.meta.env.PUBLIC_GOOGLE_ADS_PHONE_LABEL;
+const GOOGLE_TAG_ID = GA_ID || ADS_ID;
 ---
 
-<script
-    is:inline
-    type="text/partytown"
-    src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}>
-</script>
+{
+    GOOGLE_TAG_ID && (
+        <script
+            is:inline
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}`}
+        />
+    )
+}
 
 <script
     is:inline
-    type="text/partytown"
-    define:vars={{ GA_ID, ADS_ID }}>
-
+    define:vars={{ GA_ID, ADS_ID, ADS_CONTACT_LABEL, ADS_WHATSAPP_LABEL, ADS_PHONE_LABEL }}
+>
     window.dataLayer = window.dataLayer || [];
 
     function gtag() {
         dataLayer.push(arguments);
     }
 
+    window.gtag = gtag;
+
     gtag("js", new Date());
 
     // Google Analytics 4
-    gtag("config", GA_ID);
+    if (GA_ID) {
+        gtag("config", GA_ID);
+    }
 
     // Google Ads
-    gtag("config", ADS_ID);
+    if (ADS_ID) {
+        gtag("config", ADS_ID);
+    }
 
+    function sendLeadEvent(eventName, label) {
+        gtag("event", eventName, {
+            event_category: "contacto",
+        });
+
+        if (ADS_ID && label) {
+            gtag("event", "conversion", {
+                send_to: `${ADS_ID}/${label}`,
+            });
+        }
+    }
+
+    document.addEventListener("contact:success", function () {
+        sendLeadEvent("generate_lead", ADS_CONTACT_LABEL);
+    });
+
+    document.addEventListener("click", function (event) {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+
+        const link = target.closest("a[href]");
+        if (!(link instanceof HTMLAnchorElement)) return;
+
+        if (link.href.startsWith("https://wa.me/")) {
+            sendLeadEvent("contact_whatsapp", ADS_WHATSAPP_LABEL);
+        } else if (link.href.startsWith("tel:")) {
+            sendLeadEvent("contact_phone", ADS_PHONE_LABEL);
+        }
+    });
 </script>

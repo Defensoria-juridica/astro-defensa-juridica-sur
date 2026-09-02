@@ -1,300 +1,298 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ForumHero from "../components/forum/ForumHero.astro";
+import { categoriasConsulta } from "../data/seo";
 import { consultarSupabase, supabaseConfigurado } from "../lib/supabase";
 
-const categorias = [
-  {
-    nombre: "Derecho Laboral",
-    descripcion: "Consultas sobre despidos, finiquitos, licencias médicas, sueldos y derechos laborales.",
-    url: "/consultas-juridicas/derecho-laboral",
-  },
-  {
-    nombre: "Derecho de Familia",
-    descripcion: "Consultas sobre pensión de alimentos, cuidado personal, visitas y causas de familia.",
-    url: "/consultas-juridicas/derecho-familia",
-  },
-  {
-    nombre: "Derecho Penal",
-    descripcion: "Orientación general sobre denuncias, delitos, audiencias y defensa penal.",
-    url: "/consultas-juridicas/derecho-penal",
-  },
-  {
-    nombre: "Derecho Civil",
-    descripcion: "Consultas sobre contratos, deudas, arriendos, herencias y conflictos civiles.",
-    url: "/consultas-juridicas/derecho-civil",
-  },
-  {
-    nombre: "Otras Consultas",
-    descripcion: "Preguntas jurídicas generales que no pertenecen a una categoría específica.",
-    url: "/consultas-juridicas/otras-consultas",
-  },
-];
+const categorias = categoriasConsulta.map((categoria) => ({
+    ...categoria,
+    url: `/consultas-juridicas/${categoria.slug}/`,
+}));
 
 interface ConsultaReciente {
-  titulo: string;
-  slug: string | null;
-  publicada_en: string | null;
-  categorias: { nombre: string; slug: string } | null;
+    titulo: string;
+    slug: string | null;
+    publicada_en: string | null;
+    categorias: { nombre: string; slug: string } | null;
 }
 
 let consultasRecientes: ConsultaReciente[] = [];
 
 if (supabaseConfigurado) {
-  try {
-    consultasRecientes = await consultarSupabase<ConsultaReciente[]>(
-      "consultas?select=titulo,slug,publicada_en,categorias(nombre,slug)&estado=eq.publicada&order=publicada_en.desc&limit=6",
-    );
-  } catch (error) {
-    console.error("No fue posible cargar las consultas recientes:", error);
-  }
+    try {
+        consultasRecientes = await consultarSupabase<ConsultaReciente[]>(
+            "consultas?select=titulo,slug,publicada_en,categorias(nombre,slug)&estado=eq.publicada&order=publicada_en.desc&limit=6",
+        );
+    } catch (error) {
+        console.error("No fue posible cargar las consultas recientes:", error);
+    }
 }
 
 const formatearFecha = (fecha: string | null) =>
-  fecha
-    ? new Intl.DateTimeFormat("es-CL", { dateStyle: "long" }).format(new Date(fecha))
-    : "Publicado recientemente";
+    fecha
+        ? new Intl.DateTimeFormat("es-CL", { dateStyle: "long" }).format(new Date(fecha))
+        : "Publicado recientemente";
 ---
-<Layout>
-  <main class="bg-white">
-    <ForumHero />
 
-    <section id="categorias" class="bg-gris-bg py-[80px]">
-      <div class="container mx-auto px-4">
-        <div class="mb-12 text-center">
-          <h2 class="mb-4 text-3xl font-bold text-gray-900">
-            Categorías de consulta
-          </h2>
+<Layout
+    title="Consultas Jurídicas | Defensa Jurídica Sur"
+    description="Consulta orientación jurídica general y revisa respuestas sobre Derecho Laboral, Familia, Penal y Civil del equipo de Defensa Jurídica Sur."
+    canonicalPath="/consultas-juridicas/"
+>
+    <main class="bg-white">
+        <ForumHero />
 
-          <p class="mx-auto max-w-2xl text-gray-600">
-            Selecciona el área jurídica relacionada con tu consulta.
-          </p>
-        </div>
+        <section id="categorias" class="bg-gris-bg py-[80px]">
+            <div class="container mx-auto px-4">
+                <div class="mb-12 text-center">
+                    <h2 class="mb-4 text-3xl font-bold text-gray-900">Categorías de consulta</h2>
 
-        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {categorias.map((categoria) => (
-            <a
-              href={categoria.url}
-              class="group rounded-2xl bg-white p-7 shadow-md transition hover:-translate-y-1 hover:shadow-xl"
-            >
-              <h3 class="mb-3 text-xl font-bold text-gray-900 group-hover:text-black">
-                {categoria.nombre}
-              </h3>
+                    <p class="mx-auto max-w-2xl text-gray-600">
+                        Selecciona el área jurídica relacionada con tu consulta.
+                    </p>
+                </div>
 
-              <p class="mb-5 text-sm leading-relaxed text-gray-600">
-                {categoria.descripcion}
-              </p>
+                <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {
+                        categorias.map((categoria) => (
+                            <a
+                                href={categoria.url}
+                                class="group rounded-2xl bg-white p-7 shadow-md transition hover:-translate-y-1 hover:shadow-xl"
+                            >
+                                <h3 class="mb-3 text-xl font-bold text-gray-900 group-hover:text-black">
+                                    {categoria.nombre}
+                                </h3>
 
-              <span class="font-semibold text-black">
-                Ver consultas →
-              </span>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
+                                <p class="mb-5 text-sm leading-relaxed text-gray-600">
+                                    {categoria.descripcion}
+                                </p>
 
-    <section id="consultas-recientes" class="bg-white py-[80px]">
-  <div class="container mx-auto px-4">
+                                <span class="font-semibold text-black">Ver consultas →</span>
+                            </a>
+                        ))
+                    }
+                </div>
+            </div>
+        </section>
 
-    <div class="mb-12 text-center">
-      <h2 class="mb-4 text-3xl font-bold text-gray-900">
-        Consultas recientes
-      </h2>
+        <section id="consultas-recientes" class="bg-white py-[80px]">
+            <div class="container mx-auto px-4">
+                <div class="mb-12 text-center">
+                    <h2 class="mb-4 text-3xl font-bold text-gray-900">Consultas recientes</h2>
 
-      <p class="mx-auto max-w-2xl text-gray-600">
-        Revisa algunas consultas publicadas recientemente por nuestros usuarios.
-      </p>
-    </div>
+                    <p class="mx-auto max-w-2xl text-gray-600">
+                        Revisa algunas consultas publicadas recientemente por nuestros usuarios.
+                    </p>
+                </div>
 
-    <div class="grid gap-6 lg:grid-cols-3">
+                <div class="grid gap-6 lg:grid-cols-3">
+                    {
+                        consultasRecientes.map((consulta) => (
+                            <a
+                                href={
+                                    consulta.slug && consulta.categorias
+                                        ? `/consultas-juridicas/${consulta.categorias.slug}/${consulta.slug}`
+                                        : undefined
+                                }
+                                class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+                            >
+                                <span class="mb-4 inline-block rounded-full bg-yellow-100 px-3 py-1 text-sm font-semibold text-yellow-700">
+                                    {consulta.categorias?.nombre ?? "Consulta jurídica"}
+                                </span>
 
-      {consultasRecientes.map((consulta) => (
+                                <h3 class="mb-4 text-xl font-bold text-gray-900">
+                                    {consulta.titulo}
+                                </h3>
 
-        <a
-          href={consulta.slug && consulta.categorias ? `/consultas-juridicas/${consulta.categorias.slug}/${consulta.slug}` : undefined}
-          class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-        >
+                                <p class="text-sm text-gray-500">
+                                    {formatearFecha(consulta.publicada_en)}
+                                </p>
+                            </a>
+                        ))
+                    }
 
-          <span class="mb-4 inline-block rounded-full bg-yellow-100 px-3 py-1 text-sm font-semibold text-yellow-700">
-            {consulta.categorias?.nombre ?? "Consulta jurídica"}
-          </span>
+                    {
+                        consultasRecientes.length === 0 && (
+                            <p class="col-span-full rounded-2xl border border-gray-200 bg-gris-bg p-8 text-center text-gray-600">
+                                Todavía no hay consultas públicas. Las nuevas consultas aparecerán
+                                aquí después de ser revisadas.
+                            </p>
+                        )
+                    }
+                </div>
+            </div>
+        </section>
 
-          <h3 class="mb-4 text-xl font-bold text-gray-900">
-            {consulta.titulo}
-          </h3>
+        <section class="bg-white py-[80px]">
+            <div class="container mx-auto px-4">
+                <div
+                    class="mx-auto max-w-4xl rounded-3xl bg-black p-8 text-center text-white md:p-12"
+                >
+                    <h2 class="mb-4 text-3xl font-bold">¿Necesitas realizar una consulta?</h2>
 
-          <p class="text-sm text-gray-500">
-            {formatearFecha(consulta.publicada_en)}
-          </p>
+                    <p class="mb-8 text-gray-300">
+                        Puedes enviar una consulta jurídica general. Nuestro equipo revisará la
+                        información y podrá responder o contactar contigo según corresponda.
+                    </p>
 
-        </a>
+                    <a
+                        href="#formulario-consulta"
+                        class="inline-block rounded-full bg-white px-8 py-4 font-bold text-black transition hover:bg-gray-200"
+                    >
+                        Enviar consulta
+                    </a>
+                </div>
+            </div>
+        </section>
 
-      ))}
+        <section id="formulario-consulta" class="bg-gris-bg py-[80px]">
+            <div class="container mx-auto px-4">
+                <div class="mx-auto max-w-3xl rounded-2xl bg-white p-8 shadow-lg">
+                    <h2 class="mb-6 text-3xl font-bold text-gray-900">Enviar consulta jurídica</h2>
 
-      {consultasRecientes.length === 0 && (
-        <p class="col-span-full rounded-2xl border border-gray-200 bg-gris-bg p-8 text-center text-gray-600">
-          Todavía no hay consultas públicas. Las nuevas consultas aparecerán aquí después de ser revisadas.
-        </p>
-      )}
+                    <form id="formulario-foro" class="grid gap-5">
+                        <input
+                            name="nombre"
+                            type="text"
+                            placeholder="Nombre completo"
+                            minlength="2"
+                            maxlength="120"
+                            required
+                            class="rounded-lg border border-gray-300 px-4 py-3"
+                        />
 
-    </div>
+                        <input
+                            name="correo"
+                            type="email"
+                            placeholder="Correo electrónico"
+                            maxlength="254"
+                            required
+                            class="rounded-lg border border-gray-300 px-4 py-3"
+                        />
 
-  </div>
-</section>
+                        <input
+                            name="whatsapp"
+                            type="text"
+                            placeholder="WhatsApp"
+                            minlength="7"
+                            maxlength="30"
+                            required
+                            class="rounded-lg border border-gray-300 px-4 py-3"
+                        />
 
-    <section class="bg-white py-[80px]">
-      <div class="container mx-auto px-4">
-        <div class="mx-auto max-w-4xl rounded-3xl bg-black p-8 text-center text-white md:p-12">
-          <h2 class="mb-4 text-3xl font-bold">
-            ¿Necesitas realizar una consulta?
-          </h2>
+                        <select
+                            name="categoria"
+                            required
+                            class="rounded-lg border border-gray-300 px-4 py-3"
+                        >
+                            <option value="">Seleccione una categoría</option>
+                            {
+                                categorias.map((categoria) => (
+                                    <option value={categoria.url.split("/").pop()}>
+                                        {categoria.nombre}
+                                    </option>
+                                ))
+                            }
+                        </select>
 
-          <p class="mb-8 text-gray-300">
-            Puedes enviar una consulta jurídica general. Nuestro equipo revisará
-            la información y podrá responder o contactar contigo según corresponda.
-          </p>
+                        <input
+                            name="titulo"
+                            type="text"
+                            placeholder="Título de la consulta"
+                            minlength="8"
+                            maxlength="180"
+                            required
+                            class="rounded-lg border border-gray-300 px-4 py-3"
+                        />
 
-          <a
-            href="#formulario-consulta"
-            class="inline-block rounded-full bg-white px-8 py-4 font-bold text-black transition hover:bg-gray-200"
-          >
-            Enviar consulta
-          </a>
-        </div>
-      </div>
-    </section>
+                        <textarea
+                            name="detalle"
+                            rows="6"
+                            placeholder="Escribe el detalle de tu consulta"
+                            minlength="20"
+                            maxlength="5000"
+                            required
+                            class="rounded-lg border border-gray-300 px-4 py-3"></textarea>
 
-    <section id="formulario-consulta" class="bg-gris-bg py-[80px]">
-      <div class="container mx-auto px-4">
-        <div class="mx-auto max-w-3xl rounded-2xl bg-white p-8 shadow-lg">
-          <h2 class="mb-6 text-3xl font-bold text-gray-900">
-            Enviar consulta jurídica
-          </h2>
+                        <input
+                            name="sitioWeb"
+                            type="text"
+                            tabindex="-1"
+                            autocomplete="off"
+                            class="hidden"
+                            aria-hidden="true"
+                        />
 
-          <form id="formulario-foro" class="grid gap-5">
-            <input
-              name="nombre"
-              type="text"
-              placeholder="Nombre completo"
-              minlength="2"
-              maxlength="120"
-              required
-              class="rounded-lg border border-gray-300 px-4 py-3"
-            />
+                        <label class="flex gap-3 text-sm text-gray-600">
+                            <input name="aceptaTerminos" type="checkbox" required class="mt-1" />
+                            <span>
+                                Acepto que esta consulta tiene carácter informativo y no reemplaza
+                                una asesoría jurídica personalizada.
+                            </span>
+                        </label>
 
-            <input
-              name="correo"
-              type="email"
-              placeholder="Correo electrónico"
-              maxlength="254"
-              required
-              class="rounded-lg border border-gray-300 px-4 py-3"
-            />
+                        <button
+                            type="submit"
+                            class="rounded-full bg-black px-8 py-4 font-bold text-white transition hover:bg-gray-800"
+                        >
+                            Enviar consulta
+                        </button>
 
-            <input
-              name="whatsapp"
-              type="text"
-              placeholder="WhatsApp"
-              minlength="7"
-              maxlength="30"
-              required
-              class="rounded-lg border border-gray-300 px-4 py-3"
-            />
-
-            <select name="categoria" required class="rounded-lg border border-gray-300 px-4 py-3">
-              <option value="">Seleccione una categoría</option>
-              {categorias.map((categoria) => (
-                <option value={categoria.url.split("/").pop()}>{categoria.nombre}</option>
-              ))}
-            </select>
-
-            <input
-              name="titulo"
-              type="text"
-              placeholder="Título de la consulta"
-              minlength="8"
-              maxlength="180"
-              required
-              class="rounded-lg border border-gray-300 px-4 py-3"
-            />
-
-            <textarea
-              name="detalle"
-              rows="6"
-              placeholder="Escribe el detalle de tu consulta"
-              minlength="20"
-              maxlength="5000"
-              required
-              class="rounded-lg border border-gray-300 px-4 py-3"
-            ></textarea>
-
-            <input name="sitioWeb" type="text" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
-
-            <label class="flex gap-3 text-sm text-gray-600">
-              <input name="aceptaTerminos" type="checkbox" required class="mt-1" />
-              <span>
-                Acepto que esta consulta tiene carácter informativo y no reemplaza
-                una asesoría jurídica personalizada.
-              </span>
-            </label>
-
-            <button
-              type="submit"
-              class="rounded-full bg-black px-8 py-4 font-bold text-white transition hover:bg-gray-800"
-            >
-              Enviar consulta
-            </button>
-
-            <p id="estado-formulario" class="hidden rounded-lg p-4 text-sm" role="status" aria-live="polite"></p>
-          </form>
-        </div>
-      </div>
-    </section>
-  </main>
+                        <p
+                            id="estado-formulario"
+                            class="hidden rounded-lg p-4 text-sm"
+                            role="status"
+                            aria-live="polite"
+                        >
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
 </Layout>
 
 <script>
-  const formulario = document.querySelector<HTMLFormElement>("#formulario-foro");
-  const estado = document.querySelector<HTMLParagraphElement>("#estado-formulario");
+    const formulario = document.querySelector<HTMLFormElement>("#formulario-foro");
+    const estado = document.querySelector<HTMLParagraphElement>("#estado-formulario");
 
-  formulario?.addEventListener("submit", async (evento) => {
-    evento.preventDefault();
-    if (!estado) return;
+    formulario?.addEventListener("submit", async (evento) => {
+        evento.preventDefault();
+        if (!estado) return;
 
-    const boton = formulario.querySelector<HTMLButtonElement>('button[type="submit"]');
-    const datos = new FormData(formulario);
-    const contenido = Object.fromEntries(datos.entries());
-    contenido.aceptaTerminos = datos.has("aceptaTerminos") ? "true" : "false";
+        const boton = formulario.querySelector<HTMLButtonElement>('button[type="submit"]');
+        const datos = new FormData(formulario);
+        const contenido = Object.fromEntries(datos.entries());
+        contenido.aceptaTerminos = datos.has("aceptaTerminos") ? "true" : "false";
 
-    boton?.setAttribute("disabled", "true");
-    if (boton) boton.textContent = "Enviando...";
-    estado.className = "rounded-lg bg-gray-100 p-4 text-sm text-gray-700";
-    estado.textContent = "Estamos enviando tu consulta.";
+        boton?.setAttribute("disabled", "true");
+        if (boton) boton.textContent = "Enviando...";
+        estado.className = "rounded-lg bg-gray-100 p-4 text-sm text-gray-700";
+        estado.textContent = "Estamos enviando tu consulta.";
 
-    try {
-      const respuesta = await fetch("/api/consultas", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...contenido,
-          aceptaTerminos: datos.has("aceptaTerminos"),
-        }),
-      });
-      const resultado = await respuesta.json();
+        try {
+            const respuesta = await fetch("/api/consultas", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    ...contenido,
+                    aceptaTerminos: datos.has("aceptaTerminos"),
+                }),
+            });
+            const resultado = await respuesta.json();
 
-      estado.className = respuesta.ok
-        ? "rounded-lg bg-green-50 p-4 text-sm text-green-800"
-        : "rounded-lg bg-red-50 p-4 text-sm text-red-800";
-      estado.textContent = resultado.message;
+            estado.className = respuesta.ok
+                ? "rounded-lg bg-green-50 p-4 text-sm text-green-800"
+                : "rounded-lg bg-red-50 p-4 text-sm text-red-800";
+            estado.textContent = resultado.message;
 
-      if (respuesta.ok) formulario.reset();
-    } catch {
-      estado.className = "rounded-lg bg-red-50 p-4 text-sm text-red-800";
-      estado.textContent = "No pudimos conectar con el servidor. Inténtalo nuevamente.";
-    } finally {
-      boton?.removeAttribute("disabled");
-      if (boton) boton.textContent = "Enviar consulta";
-    }
-  });
+            if (respuesta.ok) formulario.reset();
+        } catch {
+            estado.className = "rounded-lg bg-red-50 p-4 text-sm text-red-800";
+            estado.textContent = "No pudimos conectar con el servidor. Inténtalo nuevamente.";
+        } finally {
+            boton?.removeAttribute("disabled");
+            if (boton) boton.textContent = "Enviar consulta";
+        }
+    });
 </script>

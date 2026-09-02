@@ -4,6 +4,77 @@ import "aos/dist/aos.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import GoogleAnalytics from "../components/GoogleAnalytics.astro";
+
+interface Props {
+    title?: string;
+    description?: string;
+    canonicalPath?: string;
+    ogType?: "website" | "article";
+    noindex?: boolean;
+    structuredData?: Record<string, unknown>;
+}
+
+const defaultTitle = "Defensa Jurídica Sur | Abogados en Puerto Montt";
+const defaultDescription =
+    "Estudio jurídico en Puerto Montt con abogados especializados en Derecho Penal, Familia, Civil, Laboral, Administrativo y Justicia Militar.";
+const {
+    title = defaultTitle,
+    description = defaultDescription,
+    canonicalPath = Astro.url.pathname,
+    ogType = "website",
+    noindex = false,
+    structuredData,
+} = Astro.props;
+
+const siteUrl = Astro.site ?? new URL("https://defensajuridicasur.cl/");
+const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
+const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "LegalService",
+    "@id": "https://defensajuridicasur.cl/#organization",
+    name: "Defensa Jurídica Sur",
+    alternateName: "Uribe y Fitzgerald y Cia.",
+    url: "https://defensajuridicasur.cl/",
+    logo: "https://defensajuridicasur.cl/favicon.svg",
+    description: defaultDescription,
+    image: "https://defensajuridicasur.cl/assets/og-image.jpg",
+    telephone: ["+56958835620", "+56921614436"],
+    email: "contacto@defensajuridicasur.cl",
+    priceRange: "$$",
+    address: {
+        "@type": "PostalAddress",
+        streetAddress: "O'Higgins 167, Edificio Plaza, Oficina 706",
+        addressLocality: "Puerto Montt",
+        addressRegion: "Los Lagos",
+        postalCode: "5480000",
+        addressCountry: "CL",
+    },
+    geo: {
+        "@type": "GeoCoordinates",
+        latitude: -41.4714627,
+        longitude: -72.9392936,
+    },
+    openingHoursSpecification: {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "09:00",
+        closes: "18:00",
+    },
+    areaServed: [
+        { "@type": "City", name: "Puerto Montt" },
+        { "@type": "AdministrativeArea", name: "Región de Los Lagos" },
+    ],
+    knowsAbout: [
+        "Derecho Penal",
+        "Derecho Civil",
+        "Derecho de Familia",
+        "Derecho Laboral",
+        "Derecho Administrativo",
+        "Justicia Militar",
+        "Policía Local",
+    ],
+    sameAs: ["https://instagram.com/defensajuridicasur"],
+};
 ---
 
 <!doctype html>
@@ -23,19 +94,14 @@ import GoogleAnalytics from "../components/GoogleAnalytics.astro";
         <meta name="generator" content={Astro.generator} />
 
         <!-- SEO Meta Tags -->
-        <title>Defensa Jurídica Sur | Abogados Puerto Montt | Asesoría Legal Especializada</title>
-        <meta
-            name="description"
-            content="Defensa Jurídica Sur - Estudio jurídico en Puerto Montt especializado en Derecho Penal, Familia, Civil, Administrativo, Laboral, Justicia Militar y Policía Local. Equipo especializado comprometido con la defensa de tus derechos."
-        />
-        <meta
-            name="keywords"
-            content="abogados puerto montt, defensa juridica sur, derecho penal puerto montt, derecho familia puerto montt, derecho civil puerto montt, abogados laborales puerto montt, justicia militar, derecho administrativo puerto montt, asesoria legal puerto montt, abogados sur chile"
-        />
+        <title>{title}</title>
+        <meta name="description" content={description} />
         <meta name="author" content="Crow Advance" />
-        <meta name="robots" content="index, follow" />
+        <meta
+            name="robots"
+            content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large"}
+        />
         <meta name="language" content="Spanish" />
-        <meta name="revisit-after" content="7 days" />
 
         <!-- Geo Meta Tags -->
         <meta name="geo.region" content="CL-LL" />
@@ -44,23 +110,18 @@ import GoogleAnalytics from "../components/GoogleAnalytics.astro";
         <meta name="ICBM" content="-41.4693, -72.9424" />
 
         <!-- Canonical URL -->
-        <link rel="canonical" href="https://defensajuridicasur.cl/" />
+        <link rel="canonical" href={canonicalUrl} />
 
         <!-- Hreflang -->
-        <link rel="alternate" hreflang="es-cl" href="https://defensajuridicasur.cl/" />
-        <link rel="alternate" hreflang="es" href="https://defensajuridicasur.cl/" />
+        <link rel="alternate" hreflang="es-cl" href={canonicalUrl} />
+        <link rel="alternate" hreflang="es" href={canonicalUrl} />
+        <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
 
         <!-- Open Graph Meta Tags -->
-        <meta
-            property="og:title"
-            content="Defensa Jurídica Sur | Abogados Puerto Montt | Asesoría Legal Especializada"
-        />
-        <meta
-            property="og:description"
-            content="Defensa Jurídica Sur - Estudio jurídico en Puerto Montt especializado en Derecho Penal, Familia, Civil, Administrativo, Laboral, Justicia Militar y Policía Local. Equipo especializado comprometido con la defensa de tus derechos."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://defensajuridicasur.cl/" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content={ogType} />
+        <meta property="og:url" content={canonicalUrl} />
         <meta property="og:site_name" content="Defensa Jurídica Sur" />
         <meta property="og:image" content="https://defensajuridicasur.cl/assets/og-image.jpg" />
         <meta property="og:image:width" content="1200" />
@@ -73,14 +134,8 @@ import GoogleAnalytics from "../components/GoogleAnalytics.astro";
 
         <!-- Twitter Card Meta Tags -->
         <meta name="twitter:card" content="summary_large_image" />
-        <meta
-            name="twitter:title"
-            content="Defensa Jurídica Sur | Abogados Puerto Montt | Asesoría Legal Especializada"
-        />
-        <meta
-            name="twitter:description"
-            content="Defensa Jurídica Sur - Estudio jurídico en Puerto Montt especializado en Derecho Penal, Familia, Civil, Administrativo, Laboral, Justicia Militar y Policía Local. Equipo especializado comprometido con la defensa de tus derechos."
-        />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
         <meta
             name="twitter:image"
             content="https://defensajuridicasur.cl/assets/twitter-card.jpg"
@@ -101,89 +156,20 @@ import GoogleAnalytics from "../components/GoogleAnalytics.astro";
         <meta http-equiv="x-ua-compatible" content="ie=edge" />
 
         <!-- Structured Data - Schema.org -->
-        <script type="application/ld+json" is:inline>
-            {
-                "@context": "https://schema.org",
-                "@type": "LegalService",
-                "@id": "https://defensajuridicasur.cl/#organization",
-                "name": "Defensa Jurídica Sur",
-                "alternateName": "Uribe y Fitzgerald y Cia.",
-                "url": "https://defensajuridicasur.cl",
-                "logo": "https://defensajuridicasur.cl/favicon.svg",
-                "description": "Estudio jurídico en Puerto Montt especializado en Derecho Penal, Familia, Civil, Administrativo, Laboral, Justicia Militar y Policía Local. Equipo especializado comprometido con la defensa de tus derechos e intereses en cada proceso legal.",
-                "image": "https://defensajuridicasur.cl/assets/og-image.jpg",
-                "telephone": ["+56958835620", "+56921614436"],
-                "email": "juridicasurdefensa@gmail.com",
-                "priceRange": "$$",
-                "address": {
-                    "@type": "PostalAddress",
-                    "streetAddress": "O'higgins 167, Edificio Plaza, Oficina 706",
-                    "addressLocality": "Puerto Montt",
-                    "addressRegion": "Los Lagos",
-                    "postalCode": "5480000",
-                    "addressCountry": "CL"
-                },
-                "geo": {
-                    "@type": "GeoCoordinates",
-                    "latitude": -41.4693,
-                    "longitude": -72.9424
-                },
-                "openingHoursSpecification": {
-                    "@type": "OpeningHoursSpecification",
-                    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-                    "opens": "09:00",
-                    "closes": "18:00"
-                },
-                "areaServed": {
-                    "@type": "City",
-                    "name": "Puerto Montt",
-                    "containedIn": {
-                        "@type": "AdministrativeArea",
-                        "name": "Los Lagos"
-                    }
-                },
-                "knowsAbout": [
-                    "Derecho Penal",
-                    "Derecho Civil",
-                    "Derecho de Familia",
-                    "Derecho Laboral",
-                    "Derecho Administrativo",
-                    "Justicia Militar",
-                    "Policía Local"
-                ],
-                "hasOfferCatalog": {
-                    "@type": "OfferCatalog",
-                    "name": "Servicios Legales",
-                    "itemListElement": [
-                        {
-                            "@type": "Offer",
-                            "itemOffered": {
-                                "@type": "Service",
-                                "name": "Derecho Penal",
-                                "description": "Defensa en delitos contra la propiedad, personas, maltrato habitual, delitos sexuales y ley de drogas"
-                            }
-                        },
-                        {
-                            "@type": "Offer",
-                            "itemOffered": {
-                                "@type": "Service",
-                                "name": "Derecho de Familia",
-                                "description": "Cuidado personal, pensión de alimentos, violencia intrafamiliar, divorcios y más"
-                            }
-                        },
-                        {
-                            "@type": "Offer",
-                            "itemOffered": {
-                                "@type": "Service",
-                                "name": "Derecho Civil",
-                                "description": "Juicios ejecutivos, arrendamientos, indemnización de perjuicios y partición de herencias"
-                            }
-                        }
-                    ]
-                },
-                "sameAs": ["https://instagram.com/defensajuridicasur"]
-            }
-        </script>
+        <script
+            type="application/ld+json"
+            is:inline
+            set:html={JSON.stringify(organizationSchema)}
+        />
+        {
+            structuredData && (
+                <script
+                    type="application/ld+json"
+                    is:inline
+                    set:html={JSON.stringify(structuredData)}
+                />
+            )
+        }
 
         <GoogleAnalytics />
     </head>

@@ -10,7 +10,11 @@ import ContactForm from "../components/ContactForm.astro";
 import WhatsAppButton from "../components/WhatsAppButton.astro";
 ---
 
-<Layout>
+<Layout
+    title="Abogados en Puerto Montt | Defensa Jurídica Sur"
+    description="Estudio jurídico en Puerto Montt con abogados especializados en Derecho Penal, Familia, Civil, Laboral, Administrativo y Justicia Militar."
+    canonicalPath="/"
+>
     <!-- SLIDER -->
     <div class="mt-[-135px]" id="inicio">
         <SliderHome client:load />
@@ -46,9 +50,9 @@ import WhatsAppButton from "../components/WhatsAppButton.astro";
         <Location />
     </section>
 
-   <!-- CONTACTO -->
+    <!-- CONTACTO -->
     <section class="bg-gris-bg py-[90px]">
-    <ContactForm />
-</section>
-<WhatsAppButton />
+        <ContactForm />
+    </section>
+    <WhatsAppButton />
 </Layout>

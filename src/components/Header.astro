@@ -23,11 +23,12 @@ interface Props {
 
 const {
     navigationItems = [
-        { href: "#inicio", label: "Inicio" },
-        { href: "#nosotros", label: "Nosotros" },
-        { href: "#servicios", label: "Servicios" },
-        { href: "#equipo", label: "Equipo" },
-        { href: "#contacto", label: "Contacto" },
+        { href: "/#inicio", label: "Inicio" },
+        { href: "/#nosotros", label: "Nosotros" },
+        { href: "/#servicios", label: "Servicios" },
+        { href: "/#equipo", label: "Equipo" },
+        { href: "/consultas-juridicas/", label: "Consultas" },
+        { href: "/#contacto", label: "Contacto" },
     ],
     logo = logoHeader,
     contactInfo = {
@@ -135,8 +136,13 @@ const {
             </div>
 
             <nav class="sidebar-nav">
-               <a href="/" class="nav-brand relative -left-8">
-                    <Image src={logo} alt="Logo Defensa Jurídica Sur - Abogados Puerto Montt" class="nav-logo" loading="lazy" />
+                <a href="/" class="nav-brand relative -left-8">
+                    <Image
+                        src={logo}
+                        alt="Logo Defensa Jurídica Sur - Abogados Puerto Montt"
+                        class="nav-logo"
+                        loading="lazy"
+                    />
                 </a>
                 <ul class="sidebar-menu">
                     {
@@ -246,7 +252,7 @@ const {
             // Agregar clase active al enlace correspondiente
             navLinks.forEach((link) => {
                 const href = link.getAttribute("href");
-                if (href === `#${sectionId}`) {
+                if (href === `#${sectionId}` || href?.endsWith(`#${sectionId}`)) {
                     if (link.classList.contains("nav-link")) {
                         link.classList.add("nav-link-active");
                     } else if (link.classList.contains("sidebar-link")) {
@@ -260,8 +266,8 @@ const {
         navLinks.forEach((link) => {
             link.addEventListener("click", () => {
                 const href = link.getAttribute("href");
-                if (href && href.startsWith("#")) {
-                    const sectionId = href.substring(1);
+                if (href && href.includes("#")) {
+                    const sectionId = href.split("#")[1];
                     setActiveLink(sectionId);
                 }
             });

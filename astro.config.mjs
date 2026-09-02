@@ -4,7 +4,6 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@astrojs/react";
 import vercel from "@astrojs/vercel";
 import sitemap from "@astrojs/sitemap";
-import partytown from "@astrojs/partytown";
 
 // https://astro.build/config
 export default defineConfig({
@@ -38,7 +37,7 @@ export default defineConfig({
             cssCodeSplit: true, // Mantiene los estilos específicos aislados por página
             rollupOptions: {
                 output: {
-                    assetFileNames: "assets/[name].[hash][extname]"
+                    assetFileNames: "assets/[name].[hash][extname]",
                 },
             },
         },
@@ -51,11 +50,18 @@ export default defineConfig({
 
     integrations: [
         react(),
-        sitemap(),
-        partytown({
-            config: {
-                forward: ["dataLayer.push"],
+        sitemap({
+            filter: (page) => {
+                const pathname = new URL(page).pathname;
+                return !pathname.startsWith("/admin/") && !pathname.startsWith("/api/");
             },
+            customPages: [
+                "https://defensajuridicasur.cl/consultas-juridicas/derecho-laboral/",
+                "https://defensajuridicasur.cl/consultas-juridicas/derecho-familia/",
+                "https://defensajuridicasur.cl/consultas-juridicas/derecho-penal/",
+                "https://defensajuridicasur.cl/consultas-juridicas/derecho-civil/",
+                "https://defensajuridicasur.cl/consultas-juridicas/otras-consultas/",
+            ],
         }),
     ],
 
