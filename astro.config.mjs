@@ -53,15 +53,8 @@ export default defineConfig({
         sitemap({
             filter: (page) => {
                 const pathname = new URL(page).pathname;
-                return !pathname.startsWith("/admin/") && !pathname.startsWith("/api/");
+                return !pathname.startsWith("/admin/") && !pathname.startsWith("/api/") && !pathname.startsWith("/consultas-juridicas");
             },
-            customPages: [
-                "https://defensajuridicasur.cl/consultas-juridicas/derecho-laboral/",
-                "https://defensajuridicasur.cl/consultas-juridicas/derecho-familia/",
-                "https://defensajuridicasur.cl/consultas-juridicas/derecho-penal/",
-                "https://defensajuridicasur.cl/consultas-juridicas/derecho-civil/",
-                "https://defensajuridicasur.cl/consultas-juridicas/otras-consultas/",
-            ],
         }),
     ],
 
