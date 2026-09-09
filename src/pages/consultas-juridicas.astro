@@ -188,7 +188,7 @@ const formatearFecha = (fecha: string | null) =>
                             <option value="">Seleccione una categoría</option>
                             {
                                 categorias.map((categoria) => (
-                                    <option value={categoria.url.split("/").pop()}>
+                                    <option value={categoria.slug}>
                                         {categoria.nombre}
                                     </option>
                                 ))
