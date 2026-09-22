@@ -31,6 +31,7 @@ const error = Astro.url.searchParams.get("error");
     <main>
       <h1>Panel administrativo</h1>
       <p>Defensa Jurídica Sur</p>
+      <p><a href="/admin/demo">Abrir administración de demostración (solo casos ficticios)</a></p>
       {!adminConfigurado && <p class="aviso">Falta configurar la contraseña administrativa en el servidor.</p>}
       {error && <p class="error">Contraseña incorrecta.</p>}
       <form method="post" action="/api/admin/login">
