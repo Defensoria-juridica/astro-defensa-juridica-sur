@@ -1,0 +1,11 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ForumDemo from '../../components/forum/ForumDemo';
+import { FORUM_DEMO } from '../../lib/forum-demo';
+if (!FORUM_DEMO) return new Response('No encontrado', { status: 404 });
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+Astro.response.headers.set('Cache-Control', 'no-store');
+---
+<Layout title="Administración demo | Defensa Jurídica Sur" noindex={true}>
+  <ForumDemo client:load path="/admin" />
+</Layout>
