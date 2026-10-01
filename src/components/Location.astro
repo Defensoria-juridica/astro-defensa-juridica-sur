@@ -1,9 +1,7 @@
 ---
-import { Image } from "astro:assets";
 import { Mail, Phone, MapPin } from "@lucide/astro";
 import LeafletMap from "./LeafletMap";
 
-import imgQR from "../assets/images/instagram_isabel_qr.svg";
 
 interface itemContactInterface {
     icon: any;
@@ -56,15 +54,17 @@ const contactItem: itemContactInterface[] = [
                         ))
                     }
                 </ul>
-                <div class="justify-center items-center flex flex-col">
-                    <Image
-                        src={imgQR}
-                        alt="Código QR Instagram @defensajuridicasur"
-                        class="mt-[20px]"
+                <a href="https://www.instagram.com/isa.abogada/" target="_blank" rel="noopener noreferrer" class="justify-center items-center flex flex-col">
+                    <img
+                        src="/instagram-isa-abogada-qr.png"
+                        alt="Código QR Instagram @isa.abogada"
+                        width="225"
+                        height="249"
+                        class="mt-[20px] max-w-full h-auto"
                         loading="lazy"
                     />
-                    <p class="text-center text-sm text-gris-text mt-2">Síguenos en Instagram</p>
-                </div>
+                    <p class="text-center text-sm text-gris-text mt-2">Síguenos en Instagram · @isa.abogada</p>
+                </a>
             </div>
         </div>
         <div class="col-span-1 md:pl-[30px]">
