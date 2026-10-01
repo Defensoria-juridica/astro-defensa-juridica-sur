@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import ForumDemo from '../../components/forum/ForumDemo';
+import ForumContact from '../../components/forum/ForumContact.astro';
 import { FORUM_DEMO } from '../../lib/forum-demo';
 import { demoCategories } from '../../data/forum-demo';
 if (!FORUM_DEMO) return new Response('No encontrado', {status: 404});
@@ -14,4 +15,5 @@ Astro.response.headers.set('Cache-Control', 'no-store');
 ---
 <Layout title="Foro de consultas · Demostración | Defensa Jurídica Sur" noindex={true}>
   <ForumDemo client:load path={path} />
+  {parts[0] !== 'admin' && <ForumContact />}
 </Layout>
