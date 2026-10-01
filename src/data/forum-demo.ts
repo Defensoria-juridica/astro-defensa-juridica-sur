@@ -3,6 +3,7 @@ export const demoCategories = [
   { slug: 'derecho-familia', name: 'Familia', description: 'Alimentos, cuidados y relaciones familiares.' },
   { slug: 'derecho-penal', name: 'Penal', description: 'Denuncias, citaciones y defensa.' },
   { slug: 'derecho-civil', name: 'Civil', description: 'Arriendos, contratos y patrimonio.' },
+  { slug: 'derecho-administrativo', name: 'Administrativo', description: 'Trámites, actos y procedimientos ante organismos públicos.' },
   { slug: 'otras-consultas', name: 'Otras', description: 'Orientación para identificar el área de consulta.' },
 ];
 export type DemoStatus = 'pendiente' | 'publicada' | 'rechazada';
