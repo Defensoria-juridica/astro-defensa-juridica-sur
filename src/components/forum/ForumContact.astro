@@ -1,7 +1,5 @@
 ---
-import { Image } from 'astro:assets';
 import { Mail, Phone, MapPin } from '@lucide/astro';
-import instagramQR from '../../assets/images/instagram_isabel_qr.svg';
 ---
 
 <section class="forum-contact" aria-labelledby="forum-contact-title">
@@ -16,10 +14,10 @@ import instagramQR from '../../assets/images/instagram_isabel_qr.svg';
         <li><MapPin aria-hidden="true" /><span>O’Higgins 167, Edificio Plaza, Oficina 706, Puerto Montt</span></li>
       </ul>
     </div>
-    <a class="instagram" href="https://instagram.com/defensajuridicasur" target="_blank" rel="noopener noreferrer">
-      <Image src={instagramQR} alt="Código QR de Instagram de Defensa Jurídica Sur" width={180} height={180} loading="lazy" />
+    <a class="instagram" href="https://www.instagram.com/isa.abogada/" target="_blank" rel="noopener noreferrer">
+      <img src="/instagram-isa-abogada-qr.png" alt="Código QR de Instagram @isa.abogada" width="225" height="249" loading="lazy" />
       <span>Síguenos en Instagram</span>
-      <small>@defensajuridicasur</small>
+      <small>@isa.abogada</small>
     </a>
   </div>
 </section>
@@ -36,7 +34,7 @@ import instagramQR from '../../assets/images/instagram_isabel_qr.svg';
   a:hover { text-decoration: underline; }
   a:focus-visible { outline: 2px solid #876130; outline-offset: 5px; }
   .instagram { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; color: #876130; }
-  .instagram img { width: 180px; height: 180px; object-fit: contain; }
+  .instagram img { width: 225px; max-width: 100%; height: auto; }
   .instagram small { font-size: 14px; }
   @media (max-width: 640px) {
     .contact-card { grid-template-columns: minmax(0, 1fr); padding: 24px 20px; }
