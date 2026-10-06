@@ -1,11 +1,12 @@
 import type { APIRoute } from "astro";
-import { sesionValida } from "../../../lib/admin-auth";
+import { sesionValida, sameOrigin } from "../../../lib/admin-auth";
 import { consultarSupabase } from "../../../lib/supabase";
 
 const crearSlug = (titulo: string, id: string) =>
   `${titulo.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 120)}-${id.slice(0, 8)}`;
 
 export const POST: APIRoute = async ({ request, cookies, redirect }) => {
+  if (!sameOrigin(request)) return new Response('Solicitud inválida', { status: 403 });
   if (!(await sesionValida(cookies))) return redirect("/admin/login", 303);
 
   const datos = await request.formData();

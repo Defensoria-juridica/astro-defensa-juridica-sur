@@ -1,81 +1,62 @@
-import type { AstroCookies } from "astro";
-
-const NOMBRE_COOKIE = "djs_admin";
-const DURACION_SESION = 60 * 60 * 8;
-
-const ADMIN_PASSWORD = import.meta.env.ADMIN_PASSWORD;
-const ADMIN_SESSION_SECRET = import.meta.env.ADMIN_SESSION_SECRET;
-
-export const adminConfigurado = Boolean(
-  ADMIN_PASSWORD && ADMIN_SESSION_SECRET && ADMIN_SESSION_SECRET.length >= 32,
-);
-
-const codificar = (datos: ArrayBuffer) =>
-  btoa(String.fromCharCode(...new Uint8Array(datos)))
-    .replaceAll("+", "-")
-    .replaceAll("/", "_")
-    .replaceAll("=", "");
-
-async function firmar(valor: string) {
-  const clave = await crypto.subtle.importKey(
-    "raw",
-    new TextEncoder().encode(ADMIN_SESSION_SECRET),
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign"],
-  );
-  return codificar(
-    await crypto.subtle.sign("HMAC", clave, new TextEncoder().encode(valor)),
-  );
+import type { AstroCookies } from 'astro';
+import { Buffer } from 'node:buffer';
+const COOKIE = 'djs_admin_access';
+const URL = import.meta.env.SUPABASE_URL;
+const KEY = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
+export const adminConfigurado = Boolean(URL && KEY);
+export const ADMIN_EMAILS = { owner: 'sebastiancarcamova@gmail.com', lawyer: 'contacto@defensajuridicasur.cl' } as const;
+export interface AdminUser {
+  id: string; email: string;
+  app_metadata: { forum_role?: string; force_password_change?: boolean; revoked_before?: number };
 }
-
-export async function crearSesion(cookies: AstroCookies) {
-  const creadoEn = Math.floor(Date.now() / 1000).toString();
-  const firma = await firmar(creadoEn);
-  cookies.set(NOMBRE_COOKIE, `${creadoEn}.${firma}`, {
-    httpOnly: true,
-    sameSite: "strict",
-    secure: import.meta.env.PROD,
-    path: "/",
-    maxAge: DURACION_SESION,
+export interface AuthSession { access_token: string; expires_in: number; user: AdminUser }
+// The privileged key never leaves the server. Auth verifies identity on every request.
+export async function authRequest<T>(path: string, method = 'GET', body?: unknown, token = KEY): Promise<T> {
+  if (!adminConfigurado) throw new Error('Acceso no configurado');
+  const response = await fetch(`${URL}/auth/v1/${path}`, {
+    method, headers: { apikey: KEY, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: body === undefined ? undefined : JSON.stringify(body), signal: AbortSignal.timeout(15000),
   });
+  if (!response.ok) throw new Error('No fue posible completar la solicitud de acceso');
+  const text = await response.text();
+  return text ? JSON.parse(text) : undefined as T;
 }
-
+export function authorized(user: AdminUser) {
+  return (user.email === ADMIN_EMAILS.owner && user.app_metadata?.forum_role === 'owner') ||
+    (user.email === ADMIN_EMAILS.lawyer && user.app_metadata?.forum_role === 'lawyer');
+}
+export async function login(email: string, password: string) {
+  const session = await authRequest<AuthSession>('token?grant_type=password', 'POST', { email, password });
+  if (!authorized(session.user)) throw new Error('Acceso no autorizado');
+  return session;
+}
+export function crearSesion(cookies: AstroCookies, session: AuthSession) {
+  cookies.set(COOKIE, session.access_token, { httpOnly: true, sameSite: 'strict', secure: import.meta.env.PROD,
+    path: '/', maxAge: Math.min(session.expires_in, 3600) });
+  cookies.delete('djs_admin', { path: '/' });
+}
 export function cerrarSesion(cookies: AstroCookies) {
-  cookies.delete(NOMBRE_COOKIE, { path: "/" });
+  cookies.delete(COOKIE, { path: '/' });
+  cookies.delete('djs_admin', { path: '/' });
 }
-
+export async function obtenerAdmin(cookies: AstroCookies): Promise<AdminUser | null> {
+  const token = cookies.get(COOKIE)?.value;
+  if (!token) return null;
+  try {
+    const user = await authRequest<AdminUser>('user', 'GET', undefined, token);
+    // Decode only after Auth verifies signature and expiry; metadata comes from the server.
+    const claims = JSON.parse(Buffer.from(token.split('.')[1], 'base64url').toString());
+    if (!authorized(user) || typeof claims.iat !== 'number' || claims.iat <= (user.app_metadata.revoked_before ?? 0)) return null;
+    return user;
+  } catch { return null; }
+}
 export async function sesionValida(cookies: AstroCookies) {
-  if (!adminConfigurado) return false;
-  const token = cookies.get(NOMBRE_COOKIE)?.value;
-  if (!token) return false;
-
-  const [creadoEn, firmaRecibida] = token.split(".");
-  const fecha = Number(creadoEn);
-  if (!creadoEn || !firmaRecibida || !Number.isFinite(fecha)) return false;
-  if (Math.floor(Date.now() / 1000) - fecha > DURACION_SESION) return false;
-
-  const firmaEsperada = await firmar(creadoEn);
-  if (firmaEsperada.length !== firmaRecibida.length) return false;
-
-  let diferencia = 0;
-  for (let indice = 0; indice < firmaEsperada.length; indice++) {
-    diferencia |= firmaEsperada.charCodeAt(indice) ^ firmaRecibida.charCodeAt(indice);
-  }
-  return diferencia === 0;
+  const user = await obtenerAdmin(cookies);
+  return Boolean(user && !user.app_metadata.force_password_change);
 }
-
-export async function passwordValida(password: string) {
-  if (!adminConfigurado) return false;
-  const codificador = new TextEncoder();
-  const [recibido, esperado] = await Promise.all([
-    crypto.subtle.digest("SHA-256", codificador.encode(password)),
-    crypto.subtle.digest("SHA-256", codificador.encode(ADMIN_PASSWORD)),
-  ]);
-  const a = new Uint8Array(recibido);
-  const b = new Uint8Array(esperado);
-  let diferencia = 0;
-  for (let indice = 0; indice < a.length; indice++) diferencia |= a[indice] ^ b[indice];
-  return diferencia === 0;
+export function sameOrigin(request: Request) {
+  return request.headers.get('origin') === new globalThis.URL(request.url).origin;
 }
-
+export function validPassword(password: string) {
+  return password.length >= 12 && password.length <= 128;
+}

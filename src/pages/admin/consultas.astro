@@ -68,6 +68,7 @@ const consultas = await consultarSupabase<ConsultaAdmin[]>(
     </header>
     <main>
       <nav>
+        <a href="/admin/cuenta">Mi cuenta y contraseña</a>
         <a class:list={{ activo: estado === "pendiente" }} href="/admin/consultas?estado=pendiente">Pendientes</a>
         <a class:list={{ activo: estado === "publicada" }} href="/admin/consultas?estado=publicada">Publicadas</a>
         <a class:list={{ activo: estado === "rechazada" }} href="/admin/consultas?estado=rechazada">Rechazadas</a>

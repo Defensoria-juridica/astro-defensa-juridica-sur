@@ -27,5 +27,12 @@ export const onRequest = defineMiddleware(async ({ url, redirect, rewrite }, nex
             headers: { "Content-Type": "application/xml", "Cache-Control": "no-store" },
         });
     }
-    return next();
+    const response = await next();
+    if (url.pathname.startsWith('/admin/') || url.pathname.startsWith('/api/admin/')) {
+        response.headers.set('Cache-Control', 'no-store');
+        response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+        response.headers.set('Referrer-Policy', 'no-referrer');
+        response.headers.set('X-Frame-Options', 'DENY');
+    }
+    return response;
 });

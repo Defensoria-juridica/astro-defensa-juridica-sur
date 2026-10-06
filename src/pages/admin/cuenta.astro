@@ -1,0 +1,97 @@
+---
+import { randomBytes } from 'node:crypto';
+import { ADMIN_EMAILS, authRequest, cerrarSesion, login, obtenerAdmin, sameOrigin, validPassword } from '../../lib/admin-auth';
+import type { AdminUser } from '../../lib/admin-auth';
+const admin = await obtenerAdmin(Astro.cookies);
+if (!admin) return Astro.redirect('/admin/login');
+const owner = admin.app_metadata.forum_role === 'owner';
+const forced = admin.app_metadata.force_password_change;
+let error = '';
+let temporal = '';
+if (Astro.request.method === 'POST') {
+  if (!sameOrigin(Astro.request)) return new Response('Solicitud inválida', { status: 403 });
+  try {
+    const data = await Astro.request.formData();
+    const current = String(data.get('actual') ?? '');
+    if (current.length > 128) throw new Error();
+    const verified = await login(admin.email, current);
+    if (verified.user.id !== admin.id) throw new Error();
+    if (data.get('accion') === 'cambiar') {
+      const password = String(data.get('nueva') ?? '');
+      if (!validPassword(password) || password !== data.get('confirmacion') || password === current) {
+        error = 'La nueva contraseña debe tener entre 12 y 128 caracteres, coincidir en ambos campos y ser diferente de la actual.';
+      } else {
+        await authRequest(`admin/users/${admin.id}`, 'PUT', { password, app_metadata: {
+          ...admin.app_metadata, force_password_change: false, revoked_before: Math.floor(Date.now() / 1000),
+        } });
+        cerrarSesion(Astro.cookies);
+        return Astro.redirect('/admin/login?cambiada=1', 303);
+      }
+    } else if (data.get('accion') === 'restablecer' && owner && !forced && data.get('confirmar') === 'si') {
+      let lawyer: AdminUser | undefined;
+      for (let page = 1; page <= 100; page++) {
+        const result = await authRequest<{ users: AdminUser[] }>(`admin/users?page=${page}&per_page=100`);
+        lawyer = result.users.find(user => user.email === ADMIN_EMAILS.lawyer && user.app_metadata?.forum_role === 'lawyer');
+        if (lawyer || result.users.length < 100) break;
+      }
+      if (!lawyer) throw new Error();
+      const password = randomBytes(18).toString('base64url');
+      await authRequest(`admin/users/${lawyer.id}`, 'PUT', { password, app_metadata: {
+        ...lawyer.app_metadata, force_password_change: true, revoked_before: Math.floor(Date.now() / 1000),
+      } });
+      temporal = password;
+    } else { return new Response('Acción no autorizada', { status: 403 }); }
+  } catch { error = 'No pudimos completar el cambio. Revisa tu contraseña actual e inténtalo nuevamente.'; }
+}
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex, nofollow" /><title>Mi cuenta | Defensa Jurídica Sur</title>
+  </head>
+  <body><main>
+    <h1>Mi cuenta</h1>
+    <p>{admin.email}<br /><strong>{owner ? 'Administrador principal' : 'Administradora del foro'}</strong></p>
+    {forced && <p class="notice">Antes de entrar al panel, cambia tu contraseña temporal por una que solo tú conozcas.</p>}
+    {error && <p class="error" role="alert">{error}</p>}
+    {temporal && <section class="notice" role="status"><h2>Acceso restablecido</h2>
+      <p>Entrega esta clave temporal a la abogada por un medio privado. Se muestra solo en esta respuesta; no se envió por correo.</p>
+      <p><strong>{ADMIN_EMAILS.lawyer}</strong><br /><code>{temporal}</code></p>
+      <p>La clave anterior y sus sesiones previas dejaron de funcionar. Al ingresar deberá elegir una contraseña nueva.</p>
+      <a href="/admin/cuenta">Ya guardé la clave; ocultarla</a>
+    </section>}
+    <section><h2>Cambiar mi contraseña</h2>
+      <form method="post" action="/admin/cuenta">
+        <input type="hidden" name="accion" value="cambiar" />
+        <label for="actual">Contraseña actual o temporal</label><input id="actual" name="actual" type="password" autocomplete="current-password" required maxlength="128" />
+        <label for="nueva">Nueva contraseña (mínimo 12 caracteres)</label><input id="nueva" name="nueva" type="password" autocomplete="new-password" required minlength="12" maxlength="128" />
+        <label for="confirmacion">Repite la nueva contraseña</label><input id="confirmacion" name="confirmacion" type="password" autocomplete="new-password" required minlength="12" maxlength="128" />
+        <button>Guardar mi contraseña</button>
+      </form>
+    </section>
+    {owner && !forced && <section><h2>Restablecer acceso de la abogada</h2>
+      <p>Genera una nueva clave temporal para {ADMIN_EMAILS.lawyer}. Tendrá que cambiarla al ingresar.</p>
+      <form method="post" action="/admin/cuenta">
+        <input type="hidden" name="accion" value="restablecer" />
+        <label for="owner-password">Confirma tu propia contraseña</label><input id="owner-password" name="actual" type="password" autocomplete="current-password" required maxlength="128" />
+        <label class="check"><input type="checkbox" name="confirmar" value="si" required />Confirmo que quiero invalidar la clave y las sesiones anteriores de la abogada.</label>
+        <button>Generar contraseña temporal</button>
+      </form>
+    </section>}
+    {!forced && <p><a href="/admin/consultas">Volver a las consultas</a></p>}
+    <form method="post" action="/api/admin/logout"><button>Cerrar sesión</button></form>
+  </main></body>
+</html>
+<style>
+  :global(body) { margin: 0; background: #f7f6f3; color: #24303a; font-family: Arial, sans-serif; }
+  main { max-width: 640px; margin: 40px auto; padding: 24px; }
+  section { padding: 24px; margin: 24px 0; border-radius: 16px; background: white; border: 1px solid #e1ded8; }
+  h1 { font-size: 30px; } h2 { font-size: 21px; } p { line-height: 1.6; overflow-wrap: anywhere; }
+  label { display: block; margin: 20px 0 8px; font-weight: 700; }
+  input { box-sizing: border-box; width: 100%; padding: 12px; border: 1px solid #aaa; border-radius: 8px; }
+  .check { display: flex; align-items: start; gap: 10px; line-height: 1.5; } .check input { width: auto; margin-top: 4px; }
+  button { padding: 13px 20px; margin-top: 18px; border: 0; border-radius: 24px; background: #24303a; color: white; cursor: pointer; font-weight: 700; }
+  a { color: #785326; } .notice { background: #fff4dc; padding: 18px; border-radius: 12px; } .error { background: #fee; color: #991b1b; padding: 16px; }
+  code { font-size: 19px; overflow-wrap: anywhere; }
+</style>
