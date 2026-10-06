@@ -21,4 +21,4 @@ No guardar contraseñas ni claves de servicio en Git. `SUPABASE_URL` y `SUPABASE
 
 Compilación Astro y 15 comprobaciones de integración con las dos cuentas: acceso anónimo, origen externo, contraseña incorrecta, cambio obligatorio, bloqueo de moderación con clave temporal, confirmación de clave, cambio efectivo, invalidación de contraseña y sesión anteriores, acceso con clave nueva, denegación del restablecimiento a la abogada, restablecimiento por el principal, respuesta sin caché y acceso posterior con nueva clave temporal. Al finalizar se restauraron las claves iniciales y se revocaron las sesiones de prueba.
 
-El foro público continúa en modo demostración; este cambio afecta al panel real.
+El foro público está habilitado en `/consultas-juridicas`. Las consultas se guardan como pendientes en Supabase y solo se muestran tras aprobación. `/admin/demo` redirige al acceso real y las rutas internas de demostración están deshabilitadas.

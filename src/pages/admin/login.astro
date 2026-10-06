@@ -32,7 +32,6 @@ const error = Astro.url.searchParams.get("error");
     <main>
       <h1>Panel administrativo</h1>
       <p>Defensa Jurídica Sur</p>
-      <p><a href="/admin/demo">Abrir administración de demostración (solo casos ficticios)</a></p>
       {!adminConfigurado && <p class="aviso">El acceso administrativo no está disponible por el momento.</p>}
       {error && <p class="error">No pudimos iniciar sesión. Revisa tu correo y contraseña o inténtalo más tarde.</p>}
       {Astro.url.searchParams.has('cambiada') && <p class="aviso">Contraseña guardada. Ingresa con tu nueva clave.</p>}

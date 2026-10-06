@@ -1,5 +1,6 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
+import ForumContact from '../../../components/forum/ForumContact.astro';
 import { consultarSupabase } from "../../../lib/supabase";
 
 const { categoria, slug } = Astro.params;
@@ -76,4 +77,5 @@ const structuredData = {
             </div>
         </article>
     </main>
+    <ForumContact />
 </Layout>

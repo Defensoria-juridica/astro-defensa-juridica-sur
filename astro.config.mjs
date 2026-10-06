@@ -53,7 +53,7 @@ export default defineConfig({
         sitemap({
             filter: (page) => {
                 const pathname = new URL(page).pathname;
-                return !pathname.startsWith("/admin/") && !pathname.startsWith("/api/") && !pathname.startsWith("/consultas-juridicas");
+                return !pathname.startsWith("/admin/") && !pathname.startsWith("/api/") && !pathname.startsWith("/demo-foro/");
             },
         }),
     ],

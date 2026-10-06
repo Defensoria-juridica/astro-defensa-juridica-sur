@@ -29,6 +29,11 @@ export const categoriasConsulta: CategoriaConsulta[] = [
             "Consultas sobre contratos, deudas, arriendos, herencias y conflictos civiles.",
     },
     {
+        nombre: "Administrativo",
+        slug: "derecho-administrativo",
+        descripcion: "Trámites, actos y procedimientos ante organismos públicos.",
+    },
+    {
         nombre: "Otras Consultas",
         slug: "otras-consultas",
         descripcion: "Preguntas jurídicas generales que no pertenecen a una categoría específica.",

@@ -12,17 +12,16 @@ export const onRequest = defineMiddleware(async ({ url, redirect, rewrite }, nex
         target.pathname = '/demo-foro' + (url.pathname.startsWith('/admin/') ? '/admin' : url.pathname);
         return rewrite(target);
     }
-    // Pausa temporal del foro público; el panel administrativo sigue disponible.
-    if (url.pathname === "/consultas-juridicas" || url.pathname.startsWith("/consultas-juridicas/")) {
-        return new Response(null, { status: 302, headers: { Location: "/", "Cache-Control": "no-store" } });
+    if (!FORUM_DEMO && url.pathname.replace(/\/$/, '') === '/admin/demo') {
+        return redirect('/admin/login', 302);
     }
-    if (url.pathname.replace(/\/$/, "") === "/api/consultas") {
+    if (FORUM_DEMO && url.pathname.replace(/\/$/, "") === "/api/consultas") {
         return new Response(JSON.stringify({ success: false, message: "El foro estará disponible próximamente." }), {
             status: 503,
             headers: { "Content-Type": "application/json", "Cache-Control": "no-store" },
         });
     }
-    if (url.pathname === "/sitemap-consultas.xml") {
+    if (FORUM_DEMO && url.pathname === "/sitemap-consultas.xml") {
         return new Response('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"/>', {
             headers: { "Content-Type": "application/xml", "Cache-Control": "no-store" },
         });

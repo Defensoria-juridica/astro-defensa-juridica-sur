@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ForumHero from "../components/forum/ForumHero.astro";
+import ForumContact from "../components/forum/ForumContact.astro";
 import { categoriasConsulta } from "../data/seo";
 import { consultarSupabase, supabaseConfigurado } from "../lib/supabase";
 
@@ -149,6 +150,7 @@ const formatearFecha = (fecha: string | null) =>
             <div class="container mx-auto px-4">
                 <div class="mx-auto max-w-3xl rounded-2xl bg-white p-8 shadow-lg">
                     <h2 class="mb-6 text-3xl font-bold text-gray-900">Enviar consulta jurídica</h2>
+                    <p class="mb-6 text-sm text-gray-600">El título y detalle podrán publicarse después de la revisión. No incluyas nombres de terceros, RUT ni otros datos sensibles en tu consulta. Tu nombre, correo y teléfono quedan disponibles solo para el equipo administrador.</p>
 
                     <form id="formulario-foro" class="grid gap-5">
                         <input
@@ -226,8 +228,9 @@ const formatearFecha = (fecha: string | null) =>
                         <label class="flex gap-3 text-sm text-gray-600">
                             <input name="aceptaTerminos" type="checkbox" required class="mt-1" />
                             <span>
-                                Acepto que esta consulta tiene carácter informativo y no reemplaza
-                                una asesoría jurídica personalizada.
+                                Acepto que el título y detalle de mi consulta puedan publicarse
+                                después de la revisión y que la orientación tiene carácter informativo;
+                                no reemplaza una asesoría jurídica personalizada.
                             </span>
                         </label>
 
@@ -250,6 +253,7 @@ const formatearFecha = (fecha: string | null) =>
             </div>
         </section>
     </main>
+    <ForumContact />
 </Layout>
 
 <script>

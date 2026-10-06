@@ -62,6 +62,7 @@ values
   ('Derecho de Familia', 'derecho-familia', 'Consultas sobre pensión de alimentos, cuidado personal, visitas y causas de familia.'),
   ('Derecho Penal', 'derecho-penal', 'Orientación general sobre denuncias, delitos, audiencias y defensa penal.'),
   ('Derecho Civil', 'derecho-civil', 'Consultas sobre contratos, deudas, arriendos, herencias y conflictos civiles.'),
+  ('Administrativo', 'derecho-administrativo', 'Trámites, actos y procedimientos ante organismos públicos.'),
   ('Otras Consultas', 'otras-consultas', 'Preguntas jurídicas generales que no pertenecen a una categoría específica.')
 on conflict (slug) do update set
   nombre = excluded.nombre,

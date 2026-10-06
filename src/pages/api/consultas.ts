@@ -1,13 +1,8 @@
 import type { APIRoute } from "astro";
 import { consultarSupabase, supabaseConfigurado } from "../../lib/supabase";
+import { categoriasConsulta } from '../../data/seo';
 
-const categoriasPermitidas = new Set([
-  "derecho-laboral",
-  "derecho-familia",
-  "derecho-penal",
-  "derecho-civil",
-  "otras-consultas",
-]);
+const categoriasPermitidas = new Set(categoriasConsulta.map(categoria => categoria.slug));
 
 const responder = (status: number, mensaje: string) =>
   new Response(JSON.stringify({ success: status < 400, message: mensaje }), {
@@ -49,7 +44,7 @@ export const POST: APIRoute = async ({ request }) => {
       return responder(400, "Revisa la extensión de los campos ingresados.");
     }
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+    if (correo.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
       return responder(400, "Ingresa un correo electrónico válido.");
     }
 

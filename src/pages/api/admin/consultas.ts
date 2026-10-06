@@ -19,6 +19,18 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   );
   if (!registros[0]) return new Response("Consulta no encontrada", { status: 404 });
 
+  if (accion === "responder") {
+    const contenido = String(datos.get("contenido") ?? "").trim();
+    if (contenido.length < 20 || contenido.length > 10000) {
+      return new Response("La respuesta no tiene una extensión válida", { status: 400 });
+    }
+    await consultarSupabase("respuestas", {
+      method: "POST",
+      headers: { Prefer: "return=minimal" },
+      body: JSON.stringify({ consulta_id: id, contenido, publicada: true }),
+    });
+  }
+
   if (accion === "publicar" || accion === "responder") {
     await consultarSupabase(`consultas?id=eq.${encodeURIComponent(id)}`, {
       method: "PATCH",
@@ -40,20 +52,7 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
     return new Response("Acción inválida", { status: 400 });
   }
 
-  if (accion === "responder") {
-    const contenido = String(datos.get("contenido") ?? "").trim();
-    if (contenido.length < 20 || contenido.length > 10000) {
-      return new Response("La respuesta no tiene una extensión válida", { status: 400 });
-    }
-    await consultarSupabase("respuestas", {
-      method: "POST",
-      headers: { Prefer: "return=minimal" },
-      body: JSON.stringify({ consulta_id: id, contenido, publicada: true }),
-    });
-  }
-
   return redirect(`/admin/consultas?estado=${accion === "rechazar" ? "rechazada" : "publicada"}&mensaje=1`, 303);
 };
 
 export const prerender = false;
-
