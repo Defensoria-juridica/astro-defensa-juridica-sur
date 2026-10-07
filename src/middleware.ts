@@ -30,7 +30,8 @@ export const onRequest = defineMiddleware(async ({ url, redirect, rewrite }, nex
     if (url.pathname.startsWith('/admin/') || url.pathname.startsWith('/api/admin/')) {
         response.headers.set('Cache-Control', 'no-store');
         response.headers.set('X-Robots-Tag', 'noindex, nofollow');
-        response.headers.set('Referrer-Policy', 'no-referrer');
+        // Native POST forms need their same-origin Origin header for CSRF validation.
+        response.headers.set('Referrer-Policy', 'same-origin');
         response.headers.set('X-Frame-Options', 'DENY');
     }
     return response;
