@@ -1,21 +1,21 @@
 import type { APIRoute } from "astro";
-import sgMail from "@sendgrid/mail";
 
-const SENDGRID_API_KEY = import.meta.env.SENDGRID_API_KEY;
+const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
 const FROM_EMAIL =
-  import.meta.env.SENDGRID_FROM_EMAIL || "contacto@defensajuridicasur.cl";
+  import.meta.env.RESEND_FROM_EMAIL || "contacto@defensajuridicasur.cl";
 const TO_EMAIL =
-  import.meta.env.SENDGRID_TO_EMAIL || "contacto@defensajuridicasur.cl";
+  import.meta.env.RESEND_TO_EMAIL || "contacto@defensajuridicasur.cl";
 
-if (SENDGRID_API_KEY) {
-  sgMail.setApiKey(SENDGRID_API_KEY);
-}
+const escapeHtml = (value: string) =>
+  value.replace(/[&<>"']/g, (character) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]!
+  );
 
 export const POST: APIRoute = async ({ request }) => {
   try {
     // Validar API Key
-    if (!SENDGRID_API_KEY) {
-      console.error("SENDGRID_API_KEY no configurada");
+    if (!RESEND_API_KEY) {
+      console.error("RESEND_API_KEY no configurada");
 
       return new Response(
         JSON.stringify({
@@ -29,10 +29,11 @@ export const POST: APIRoute = async ({ request }) => {
     // Obtener datos
     const data = await request.formData();
 
-    const name = data.get("name")?.toString() || "";
-    const email = data.get("email")?.toString() || "";
-    const phone = data.get("phone")?.toString() || "";
-    const message = data.get("message")?.toString() || "";
+    const name = data.get("name")?.toString().trim() || "";
+    const email = data.get("email")?.toString().trim() || "";
+    const phone = data.get("phone")?.toString().trim() || "";
+    const message = data.get("message")?.toString().trim() || "";
+    const subject = data.get("subject")?.toString().trim() || "Consulta jurídica";
 
     // Validar campos
     if (!name || !email || !phone || !message) {
@@ -60,9 +61,9 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Configuración correo
     const emailContent = {
-      to: TO_EMAIL,
+      to: [TO_EMAIL],
       from: FROM_EMAIL,
-      replyTo: email,
+      reply_to: email,
       subject: `Nuevo mensaje de contacto - ${name}`,
 
       text: `
@@ -71,6 +72,7 @@ Nuevo mensaje desde Defensa Jurídica Sur
 Nombre: ${name}
 Email: ${email}
 Teléfono: ${phone}
+Asunto: ${subject}
 
 Mensaje:
 ${message}
@@ -88,16 +90,17 @@ ${message}
 
           <div style="padding:20px;background:#f4f4f4;">
 
-            <p><strong>Nombre:</strong> ${name}</p>
+            <p><strong>Nombre:</strong> ${escapeHtml(name)}</p>
 
-            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Email:</strong> ${escapeHtml(email)}</p>
 
-            <p><strong>Teléfono:</strong> ${phone}</p>
+            <p><strong>Teléfono:</strong> ${escapeHtml(phone)}</p>
+            <p><strong>Asunto:</strong> ${escapeHtml(subject)}</p>
 
             <p><strong>Mensaje:</strong></p>
 
             <div style="background:white;padding:15px;border-left:4px solid #c18f59;">
-              ${message.replace(/\n/g, "<br>")}
+              ${escapeHtml(message).replace(/\n/g, "<br>")}
             </div>
 
           </div>
@@ -107,14 +110,28 @@ ${message}
       `,
     };
 
-    console.log("Enviando correo...");
-    console.log("FROM:", FROM_EMAIL);
-    console.log("TO:", TO_EMAIL);
-
     // Enviar correo
-    await sgMail.send(emailContent);
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(emailContent),
+      signal: AbortSignal.timeout(15000),
+    });
 
-    console.log("Correo enviado correctamente");
+    if (!response.ok) {
+      // No registrar claves ni el contenido de consultas legales.
+      console.error("Resend rechazó el envío de contacto", { status: response.status });
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message: "No pudimos enviar tu mensaje. Por favor, inténtalo más tarde o contáctanos por teléfono o WhatsApp.",
+        }),
+        { status: 502, headers: { "Content-Type": "application/json" } }
+      );
+    }
 
     return new Response(
       JSON.stringify({
@@ -124,9 +141,8 @@ ${message}
       }),
       { status: 200 }
     );
-  } catch (error) {
-    console.error("ERROR COMPLETO SENDGRID:");
-    console.error(error);
+  } catch {
+    console.error("Error al procesar o enviar el formulario de contacto");
 
     return new Response(
       JSON.stringify({
